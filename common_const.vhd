@@ -39,4 +39,22 @@ package common_const is
     constant CONT_OP_MATH : integer := 1;
     constant CONT_OUT_PC  : integer := 0;
 
+    -- REGISTER ADDRESSES
+    constant REG_0     : std_logic_vector(3 downto 0) := "0000";
+    constant REG_1     : std_logic_vector(3 downto 0) := "0001";
+    constant REG_2     : std_logic_vector(3 downto 0) := "0010";
+    constant REG_3     : std_logic_vector(3 downto 0) := "0011";
+    constant REG_4     : std_logic_vector(3 downto 0) := "0100";
+    constant REG_5     : std_logic_vector(3 downto 0) := "0101";
+    constant REG_6     : std_logic_vector(3 downto 0) := "0110";
+    constant REG_7     : std_logic_vector(3 downto 0) := "0111";
+    constant REG_8     : std_logic_vector(3 downto 0) := "1000";
+    constant REG_9     : std_logic_vector(3 downto 0) := "1001";
+    constant REG_10    : std_logic_vector(3 downto 0) := "1010";
+    constant REG_11    : std_logic_vector(3 downto 0) := "1011";
+    constant REG_12    : std_logic_vector(3 downto 0) := "1100";
+    constant REG_13    : std_logic_vector(3 downto 0) := "1101";
+    constant REG_PC    : std_logic_vector(3 downto 0) := "1110";
+    constant REG_FLAGS : std_logic_vector(3 downto 0) := "1111";
+
 end package common_const;
