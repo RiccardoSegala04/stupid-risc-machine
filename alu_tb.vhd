@@ -13,19 +13,9 @@ architecture testbench of alu_tb is
     signal output    : std_logic_vector(15 downto 0);
     signal flags_out : std_logic_vector(15 downto 0);
 
-    component alu
-        port (
-            opcode    : in std_logic_vector(2 downto 0);
-            op1       : in std_logic_vector(15 downto 0);
-            op2       : in std_logic_vector(15 downto 0);
-            flags_in  : in std_logic_vector(15 downto 0);
-            output    : out std_logic_vector(15 downto 0);
-            flags_out : out std_logic_vector(15 downto 0)
-        );
-    end component;
 begin
 
-    uut: alu port map (
+    uut: entity work.alu port map (
         opcode => opcode,
         op1 => op1,
         op2 => op2,
