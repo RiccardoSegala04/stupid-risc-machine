@@ -2,14 +2,14 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
+use work.common_const.all;
+
 entity alu is
     port(
         opcode: in std_logic_vector(2 downto 0);
         op1: in std_logic_vector(15 downto 0);
         op2: in std_logic_vector(15 downto 0);
         flags_in: in std_logic_vector(15 downto 0);
-
-        -- carry overflow negative zero - - - -
 
         output: out std_logic_vector(15 downto 0);
         flags_out: out std_logic_vector(15 downto 0)
@@ -27,21 +27,21 @@ begin
         op2u <= unsigned(op2);
 
         case opcode is
-            when "000" => 
+            when ALU_ADC => 
                 result <= resize(op1u + op2u, 17);
-            when "001" => 
+            when ALU_SBC => 
                 result <= resize(op1u - op2u, 17);
-            when "010" => 
+            when ALU_AND => 
                 result <= resize(op1u and op2u, 17);
-            when "011" => 
+            when ALU_OR  => 
                 result <= resize(op1u or op2u, 17);
-            when "100" => 
+            when ALU_NOT => 
                 result <= resize(not op1u, 17);
-            when "101" => 
+            when ALU_SL  => 
                 result <= op1u(15 downto 0) & '0';
-            when "110" => 
+            when ALU_SR  => 
                 result <= '0' & op1u(15 downto 0);
-            when "111" => 
+            when ALU_CMP => 
                 result <= (others => '0');
             when others => 
                 result <= (others => 'X');

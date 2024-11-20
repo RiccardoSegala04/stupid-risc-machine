@@ -22,7 +22,7 @@ end execute_stage;
 architecture behavioural of execute_stage is
     signal alu_in    : std_logic_vector(15 downto 0);
     signal alu_out   : std_logic_vector(15 downto 0);
-    signal alu_flags : std_logc_vector(15 downto 0); 
+    signal alu_flags : std_logic_vector(15 downto 0); 
 begin
     alu: entity work.alu
         port map(
