@@ -32,12 +32,12 @@ package common_const is
     constant ALU_CMP : std_logic_vector(2 downto 0) := "111";
 
     -- CONTROL SIGNALS
-    constant CONT_WB_SEL  : integer := 5;
-    constant CONT_WB_EN   : integer := 4;
-    constant CONT_ABS     : integer := 3;
-    constant CONT_MEM_RD  : integer := 2;
-    constant CONT_OP_MATH : integer := 1;
-    constant CONT_OUT_PC  : integer := 0;
+    constant CONT_WB_SEL  : integer := 0;
+    constant CONT_WB_EN   : integer := 1;
+    constant CONT_ABS     : integer := 2;
+    constant CONT_MEM_RD  : integer := 3;
+    constant CONT_OP_MATH : integer := 4;
+    constant CONT_OUT_PC  : integer := 5;
 
     -- REGISTER ADDRESSES
     constant REG_0     : std_logic_vector(3 downto 0) := "0000";
