@@ -1,10 +1,12 @@
 library ieee;
 use ieee.std_logic_1164.all;
 
-entity execute_stage is
+use work.common_const.all;
+
+entity execute is
     port(
         clk          : in std_logic;
-        control_in   : in std_logic_vector(4 downto 0);
+        control_in   : in std_logic_vector(5 downto 0);
         alu_op       : in std_logic_vector(2 downto 0);
         imm8_in      : in std_logic_vector(7 downto 0);
         dreg_in      : in std_logic_vector(3 downto 0);
@@ -12,14 +14,15 @@ entity execute_stage is
         op2          : in std_logic_vector(15 downto 0); 
         flags        : in std_logic_vector(15 downto 0);
 
-        control_out  : out std_logic_vector(3 downto 0);
-        imm8_out     : out std_logic_vector(7 downto 0);
-        dreg_out     : out std_logic_vector(3 downto 0);
+        control_out  : out std_logic_vector(2 downto 0);
+        imm12_out    : out std_logic_vector(11 downto 0);
+        mem_addr_out : out std_logic_vector(15 downto 0);
+        mem_data_out : out std_logic_vector(15 downto 0);
         result       : out std_logic_vector(15 downto 0)
     );
-end execute_stage;
+end execute;
 
-architecture behavioural of execute_stage is
+architecture behavioural of execute is
     signal alu_in    : std_logic_vector(15 downto 0);
     signal alu_out   : std_logic_vector(15 downto 0);
     signal alu_flags : std_logic_vector(15 downto 0); 
@@ -27,27 +30,24 @@ begin
     alu: entity work.alu
         port map(
             op1       => op1,
-            op2       => alu_in,
-            alu_op    => opcode,
-            flags     => flags_in,
-            alu_out   => output,
-            alu_flags => flags_out
+            op2       => op2,
+            opcode    => alu_op,
+            flags_in  => flags,
+            output    => alu_out,
+            flags_out => alu_flags
         );
 
-    operand_select: process
-    begin
-        alu_in <= op2;
-
-        if control_in(3) then
-            alu_in <= imm8_in;
-        end if;
-    end process;
+    alu_in <= "00000000" & imm8_in when control_in(CONT_OUT_PC) = '1' else 
+              op2;
 
     forward: process(clk)
     begin
-        control_out <= control_in(2 downto 0);
-        imm8_out <= imm8_in;
-        dreg_out <= dreg_in;
-        result <= alu_out;
+        if rising_edge(clk) then
+            control_out <= control_in(2 downto 0);
+            imm12_out <= dreg_in & imm8_in;
+            result <= alu_out;
+            mem_addr_out <= op2;
+            mem_data_out <= op1;
+        end if;
     end process;
 end behavioural;

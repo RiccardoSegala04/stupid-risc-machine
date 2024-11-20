@@ -21,11 +21,12 @@ architecture behavioural of alu is
     signal op1u   : unsigned(15 downto 0);
     signal op2u   : unsigned(15 downto 0);
 begin
-    process (op1, op2, opcode)
-    begin
-        op1u <= unsigned(op1);
-        op2u <= unsigned(op2);
 
+    op1u <= unsigned(op1);
+    op2u <= unsigned(op2);
+
+    process (op1u, op2u, opcode)
+    begin
         case opcode is
             when ALU_ADC => 
                 result <= resize(op1u + op2u, 17);
