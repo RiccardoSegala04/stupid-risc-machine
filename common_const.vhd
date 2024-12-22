@@ -12,7 +12,7 @@ package common_const is
     constant OP_SL       : std_logic_vector(3 downto 0) := "0101";
     constant OP_SR       : std_logic_vector(3 downto 0) := "0110";
     constant OP_CMP      : std_logic_vector(3 downto 0) := "0111";
-    constant OP_JMP_ABS  : std_logic_vector(3 downto 0) := "1000";
+    constant OP_MOV      : std_logic_vector(3 downto 0) := "1000";
     constant OP_JEQ_REL  : std_logic_vector(3 downto 0) := "1001";
     constant OP_JGT_REL  : std_logic_vector(3 downto 0) := "1010";
     constant OP_JLT_REL  : std_logic_vector(3 downto 0) := "1011";
@@ -34,14 +34,20 @@ package common_const is
     -- CONTROL SIGNALS
     constant CONT_WB_SEL    : integer := 0;
     constant CONT_WB_EN     : integer := 1;
+    
     constant CONT_IMM       : integer := 2;
+    
     constant CONT_MEM_RD    : integer := 3;
-    constant CONT_WR_FLAG   : integer := 4;
-    constant CONT_RD_FLAG   : integer := 5;
-    constant CONT_OP_ALU_0  : integer := 6;
-    constant CONT_OP_ALU_1  : integer := 7;
-    constant CONT_OP_ALU_2  : integer := 8;
-    constant CONT_OUT_PC    : integer := 9;
+    constant CONT_MEM_WR    : integer := 4;
+    
+    constant CONT_WR_FLAG   : integer := 5;
+    constant CONT_RD_FLAG   : integer := 6;
+    
+    constant CONT_OUT_PC    : integer := 7;
+
+    constant CONT_OP_ALU_0  : integer := 8;
+    constant CONT_OP_ALU_1  : integer := 9;
+    constant CONT_OP_ALU_2  : integer := 10;
 
     -- REGISTER ADDRESSES
     constant REG_0     : std_logic_vector(3 downto 0) := "0000";
