@@ -15,7 +15,7 @@ entity execute is
 
         flags_wr     : out std_logic;
         flags_out    : out std_logic_vector(15 downto 0);
-        control_out  : out std_logic_vector(2 downto 0);
+        control_out  : out std_logic_vector(3 downto 0);
         imm12_out    : out std_logic_vector(11 downto 0);
         mem_addr_out : out std_logic_vector(15 downto 0);
         mem_data_out : out std_logic_vector(15 downto 0);

@@ -10,8 +10,8 @@ entity writeback_stage is
         mem_data    : in std_logic_vector(15 downto 0);
         imm_12      : in std_logic_vector(11 downto 0);
 
-        wb_data     : in std_logic_vector(15 downto 0);
-        wb_reg      : in std_logic_vector(3 downto 0);
+        wb_data     : out std_logic_vector(15 downto 0);
+        wb_reg      : out std_logic_vector(3 downto 0);
     );
 end writeback_stage;
 
