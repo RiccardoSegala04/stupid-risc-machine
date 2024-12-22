@@ -39,8 +39,10 @@ begin
 
     forward: process(clk)
     begin
-        control_out <= control_in(2 downto 0);
-        data_out <= stage_out;
-        imm12_out <= imm12_in;
+        if rising_edge(clk) then
+            control_out <= control_in(2 downto 0);
+            data_out <= stage_out;
+            imm12_out <= imm12_in;
+        end if;
     end process;
 end behavioural;
