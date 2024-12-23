@@ -2,6 +2,12 @@ library ieee;
 use ieee.std_logic_1164.all;
 
 package common_const is
+
+    -- GENERAL
+    constant CPU_WORD                    : integer := 16;
+    constant EXECUTE_STAGE_CONTROL_LEN   : integer := 11;
+    constant MEMORY_STAGE_CONTROL_LEN    : integer := 5;
+    constant WRITEBACK_STAGE_CONTROL_LEN : integer := 3;
     
     -- OPCODES
     constant OP_ADC      : std_logic_vector(3 downto 0) := "0000";
@@ -21,7 +27,7 @@ package common_const is
     constant OP_STORE    : std_logic_vector(3 downto 0) := "1110";
     constant OP_NOP      : std_logic_vector(3 downto 0) := "1111";
 
-    -- ALU OPERATIONS
+    -- ALU OPCODES
     constant ALU_ADC : std_logic_vector(2 downto 0) := "000";
     constant ALU_SBC : std_logic_vector(2 downto 0) := "001";
     constant ALU_AND : std_logic_vector(2 downto 0) := "010";
@@ -34,17 +40,12 @@ package common_const is
     -- CONTROL SIGNALS
     constant CONT_WB_SEL    : integer := 0;
     constant CONT_WB_EN     : integer := 1;
-    
     constant CONT_IMM       : integer := 2;
-    
     constant CONT_MEM_RD    : integer := 3;
     constant CONT_MEM_WR    : integer := 4;
-    
     constant CONT_WR_FLAG   : integer := 5;
     constant CONT_RD_FLAG   : integer := 6;
-    
     constant CONT_OUT_PC    : integer := 7;
-
     constant CONT_OP_ALU_0  : integer := 8;
     constant CONT_OP_ALU_1  : integer := 9;
     constant CONT_OP_ALU_2  : integer := 10;

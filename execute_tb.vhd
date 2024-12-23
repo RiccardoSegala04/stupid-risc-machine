@@ -8,15 +8,14 @@ end entity;
 
 architecture testbench of execute_tb is 
     signal clk          : std_logic;
-    signal control_in   : std_logic_vector(5 downto 0);
-    signal alu_op       : std_logic_vector(2 downto 0);
+    signal control_in   : std_logic_vector(10 downto 0);
     signal imm8_in      : std_logic_vector(7 downto 0);
     signal dreg_in      : std_logic_vector(3 downto 0);
     signal op1          : std_logic_vector(15 downto 0); 
     signal op2          : std_logic_vector(15 downto 0); 
     signal flags        : std_logic_vector(15 downto 0);
 
-    signal control_out  : std_logic_vector(2 downto 0);
+    signal control_out  : std_logic_vector(4 downto 0);
     signal imm12_out    : std_logic_vector(11 downto 0);
     signal mem_addr_out : std_logic_vector(15 downto 0);
     signal mem_data_out : std_logic_vector(15 downto 0);
@@ -26,7 +25,6 @@ begin
     uut: entity work.execute port map (
         clk => clk,
         control_in => control_in,
-        alu_op => alu_op,
         imm8_in => imm8_in,
         dreg_in => dreg_in,
         op1 => op1,
@@ -57,8 +55,7 @@ begin
         op2 <= "0000000000000010";
         dreg_in <= "0000";
         imm8_in <= "00000001";
-        alu_op <= ALU_ADC;
-        control_in <= "000000";
+        control_in <= (others => '0');
 
         wait for 10 ns;
         wait;

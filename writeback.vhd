@@ -1,21 +1,23 @@
 library ieee;
 use ieee.std_logic_1164.all;
 
-entity writeback_stage is
+use work.common_const.all;
+
+entity writeback is
     port(
-        clk         : in std_logic;
-        
         control_in  : in std_logic_vector(2 downto 0);
         
-        mem_data    : in std_logic_vector(15 downto 0);
+        mem_data    : in std_logic_vector(CPU_WORD-1 downto 0);
         imm_12      : in std_logic_vector(11 downto 0);
 
-        wb_data     : out std_logic_vector(15 downto 0);
-        wb_reg      : out std_logic_vector(3 downto 0);
+        wb_data     : out std_logic_vector(CPU_WORD-1 downto 0);
+        wb_reg      : out std_logic_vector(3 downto 0)
     );
-end writeback_stage;
+end writeback;
 
-architecture behavioural of writeback_stage is
+architecture behavioural of writeback is
+begin
+
     wb_data <= ((others => '0') & imm_12(11 downto 4)) when control_in(CONT_IMM) = '1'
                else mem_data;
     wb_reg <= 
@@ -23,6 +25,5 @@ architecture behavioural of writeback_stage is
             else
               REG_PC when control_in(CONT_WB_SEL) = '0'
               else imm_12(3 downto 0);
-begin
 
-end behavioural
+end behavioural;
