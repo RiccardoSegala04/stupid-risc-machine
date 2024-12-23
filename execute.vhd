@@ -6,15 +6,25 @@ use work.common_const.all;
 entity execute is
     port(
         clk          : in std_logic;
+<<<<<<< Updated upstream
         control_in   : in std_logic_vector(5 downto 0);
         alu_op       : in std_logic_vector(2 downto 0);
+=======
+        control_in   : in std_logic_vector(10 downto 0);
+>>>>>>> Stashed changes
         imm8_in      : in std_logic_vector(7 downto 0);
         dreg_in      : in std_logic_vector(3 downto 0);
         op1          : in std_logic_vector(15 downto 0); 
         op2          : in std_logic_vector(15 downto 0); 
         flags        : in std_logic_vector(15 downto 0);
 
+<<<<<<< Updated upstream
         control_out  : out std_logic_vector(2 downto 0);
+=======
+        flags_wr     : out std_logic;
+        flags_out    : out std_logic_vector(15 downto 0);
+        control_out  : out std_logic_vector(4 downto 0);
+>>>>>>> Stashed changes
         imm12_out    : out std_logic_vector(11 downto 0);
         mem_addr_out : out std_logic_vector(15 downto 0);
         mem_data_out : out std_logic_vector(15 downto 0);
@@ -43,8 +53,13 @@ begin
     forward: process(clk)
     begin
         if rising_edge(clk) then
+<<<<<<< Updated upstream
             control_out <= control_in(2 downto 0);
             imm12_out <= dreg_in & imm8_in;
+=======
+            control_out <= control_in(4 downto 0);
+            imm12_out <= wb_reg_in & imm8_in;
+>>>>>>> Stashed changes
             result <= alu_out;
             mem_addr_out <= op2;
             mem_data_out <= op1;
