@@ -9,6 +9,7 @@ entity memory is
     generic (mem_size : integer := 65536);                                           -- Size of the memory in bytes
     port(                                                                                             
         clk         : in std_logic;                                                  -- Clock signal
+        rst         : in std_logic;                                                  -- Reset signal
                                                                                                       
         control_in  : in std_logic_vector(MEMORY_STAGE_CONTROL_LEN-1 downto 0);      -- Control signals from the previous stage
         mem_addr    : in std_logic_vector(CPU_WORD-1 downto 0);                      -- Address for memory access
@@ -40,6 +41,15 @@ begin
     -- otherwise, pass data from previous stage (execute)
     stage_out <= mem_out when control_in(CONT_MEM_RD) = '1'
                  else alu_data;
+
+    reset: process(rst)
+    begin
+        if rst = '0' then
+            control_out <= (others => '0');
+            data_out <= (others => '0'); 
+            imm12_out <= (others => '0'); 
+        end if;
+    end process;
 
     -- Forwarding logic to pass signals to the next pipeline stage 
     -- on the rising edge of the clock

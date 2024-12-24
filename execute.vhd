@@ -8,6 +8,8 @@ use work.common_const.all;
 entity execute is
     port(
         clk          : in std_logic;                                               -- Clock signal                            
+        rst          : in std_logic;                                               -- Reset signal
+
         control_in   : in std_logic_vector(EXECUTE_STAGE_CONTROL_LEN-1 downto 0);  -- Control signals from decode stage
         imm12_in     : in std_logic_vector(11 downto 0);                           -- 12-bit immediate value
         op1          : in std_logic_vector(CPU_WORD-1 downto 0);                   -- Operand 1 
@@ -47,6 +49,15 @@ begin
     -- If CONT_OUT_PC is set, use immediate value (relative branch); otherwise, use op2
     alu_in <= "0000" & imm12_in when control_in(CONT_OUT_PC) = '1' else 
               op2;
+
+    reset: process(rst)
+    begin
+        if rst = '0' then
+            mem_addr_out <= (others => '0'); 
+            mem_data_out <= (others => '0'); 
+            result <= (others => '0');  
+        end if;
+    end process;
 
     -- Forwarding logic to update outputs on rising edge of the clock
     forward: process(clk)

@@ -5,7 +5,8 @@ use work.common_const.all;
 
 entity risc is
     port (
-        clk: std_logic
+        clk: std_logic;
+        rst: std_logic
     );
 end risc;
 
@@ -42,12 +43,14 @@ architecture behavioural of risc is
 begin
     fetch: entity work.fetch port map (
         clk      => clk,
+        rst      => rst,
         rom_addr => decode_pc_value,
         rom_data => fetch_operation
     );
 
     decode: entity work.decode port map (
         clk              => clk,
+        rst              => rst,
         opcode           => fetch_operation(3 downto 0),
         reg1addr         => fetch_operation(7 downto 4),
         reg2addr         => fetch_operation(11 downto 8),
@@ -66,6 +69,7 @@ begin
 
     execute: entity work.execute port map (
         clk          => clk,
+        rst          => rst,
         control_in   => decode_control,
         imm12_in     => decode_imm12_out,
         op1          => decode_reg1data,      
@@ -81,7 +85,8 @@ begin
     );
 
     memory: entity work.memory port map (
-        clk => clk,
+        clk         => clk,
+        rst         => rst,
         control_in  => execute_control_out,
         mem_addr    => execute_mem_addr_out,
         mem_data    => execute_mem_data_out,
@@ -93,6 +98,7 @@ begin
     );
 
     writeback: entity work.writeback port map (
+        rst        => rst,
         control_in => memory_control_out,
         mem_data   => memory_data_out,
         imm12      => memory_imm12_out,

@@ -51,21 +51,38 @@ package common_const is
     constant CONT_OP_ALU_2  : integer := 10;
 
     -- REGISTER ADDRESSES
-    constant REG_0     : std_logic_vector(3 downto 0) := "0000";
-    constant REG_1     : std_logic_vector(3 downto 0) := "0001";
-    constant REG_2     : std_logic_vector(3 downto 0) := "0010";
-    constant REG_3     : std_logic_vector(3 downto 0) := "0011";
-    constant REG_4     : std_logic_vector(3 downto 0) := "0100";
-    constant REG_5     : std_logic_vector(3 downto 0) := "0101";
-    constant REG_6     : std_logic_vector(3 downto 0) := "0110";
-    constant REG_7     : std_logic_vector(3 downto 0) := "0111";
-    constant REG_8     : std_logic_vector(3 downto 0) := "1000";
-    constant REG_9     : std_logic_vector(3 downto 0) := "1001";
-    constant REG_10    : std_logic_vector(3 downto 0) := "1010";
-    constant REG_11    : std_logic_vector(3 downto 0) := "1011";
-    constant REG_12    : std_logic_vector(3 downto 0) := "1100";
-    constant REG_13    : std_logic_vector(3 downto 0) := "1101";
-    constant REG_PC    : std_logic_vector(3 downto 0) := "1110";
-    constant REG_FLAGS : std_logic_vector(3 downto 0) := "1111";
+    constant REG_0_LOGIC_VEC     : std_logic_vector(3 downto 0) := "0000";
+    constant REG_1_LOGIC_VEC     : std_logic_vector(3 downto 0) := "0001";
+    constant REG_2_LOGIC_VEC     : std_logic_vector(3 downto 0) := "0010";
+    constant REG_3_LOGIC_VEC     : std_logic_vector(3 downto 0) := "0011";
+    constant REG_4_LOGIC_VEC     : std_logic_vector(3 downto 0) := "0100";
+    constant REG_5_LOGIC_VEC     : std_logic_vector(3 downto 0) := "0101";
+    constant REG_6_LOGIC_VEC     : std_logic_vector(3 downto 0) := "0110";
+    constant REG_7_LOGIC_VEC     : std_logic_vector(3 downto 0) := "0111";
+    constant REG_8_LOGIC_VEC     : std_logic_vector(3 downto 0) := "1000";
+    constant REG_9_LOGIC_VEC     : std_logic_vector(3 downto 0) := "1001";
+    constant REG_10_LOGIC_VEC    : std_logic_vector(3 downto 0) := "1010";
+    constant REG_11_LOGIC_VEC    : std_logic_vector(3 downto 0) := "1011";
+    constant REG_12_LOGIC_VEC    : std_logic_vector(3 downto 0) := "1100";
+    constant REG_13_LOGIC_VEC    : std_logic_vector(3 downto 0) := "1101";
+    constant REG_PC_LOGIC_VEC    : std_logic_vector(3 downto 0) := "1110";
+    constant REG_FLAGS_LOGIC_VEC : std_logic_vector(3 downto 0) := "1111";
+
+    constant REG_0     : integer := 0;
+    constant REG_1     : integer := 1;
+    constant REG_2     : integer := 2;
+    constant REG_3     : integer := 3;
+    constant REG_4     : integer := 4;
+    constant REG_5     : integer := 5;
+    constant REG_6     : integer := 6;
+    constant REG_7     : integer := 7;
+    constant REG_8     : integer := 8;
+    constant REG_9     : integer := 9;
+    constant REG_10    : integer := 10;
+    constant REG_11    : integer := 11;
+    constant REG_12    : integer := 12;
+    constant REG_13    : integer := 13;
+    constant REG_PC    : integer := 14;
+    constant REG_FLAGS : integer := 15;
 
 end package common_const;

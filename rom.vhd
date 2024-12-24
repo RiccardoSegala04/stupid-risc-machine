@@ -10,7 +10,7 @@ entity ROM is
 end entity ROM;
 
 architecture dataflow of ROM is
-    type rom_array is array (0 to size) of
+    type rom_array is array (0 to 6) of
         std_logic_vector(15 downto 0);
     constant rom_mem : rom_array := (   "0101010101010101",
                                         "1010101010101010",

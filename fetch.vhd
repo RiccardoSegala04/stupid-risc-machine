@@ -5,8 +5,10 @@ entity fetch is
     generic (rom_size : integer := 65536);
     port(
         clk : in std_logic;
-        
+        rst : in std_logic;     
+
         rom_addr : in std_logic_vector(15 downto 0);
+
         rom_data : out std_logic_vector(15 downto 0)
     );
 end fetch;
@@ -20,6 +22,13 @@ begin
         addr => rom_addr,
         data => rom_out
     );
+
+    reset: process(rst)
+    begin
+        if rst = '0' then
+            rom_data <= (others => '0');
+        end if;
+    end process;
 
 
     forward: process(clk)

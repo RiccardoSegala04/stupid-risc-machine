@@ -9,6 +9,8 @@ use work.common_const.all;
 entity decode is
     port (
         clk          : in std_logic;                              -- Clock signal                                          
+        rst         : in std_logic;                               -- Reset signal
+
         opcode       : in std_logic_vector(3 downto 0);           -- Opcode to determine the operation type.
         reg1addr     : in std_logic_vector(3 downto 0);           -- Address of the first register to read
         reg2addr     : in std_logic_vector(3 downto 0);           -- Address of the second register to read
@@ -17,7 +19,6 @@ entity decode is
         wb_reg_data  : in std_logic_vector(CPU_WORD-1 downto 0);  -- Data to write to the write-back register
         flags_in     : in std_logic_vector(CPU_WORD-1 downto 0);  -- Flags input to be written to the flags register
         flags_wr     : in std_logic;                              -- Control signal to enable writing to the flags register
-        
                                                                                                                     
         control_out  : out std_logic_vector(EXECUTE_STAGE_CONTROL_LEN-1 downto 0); -- Control signal output for the execute stage.
         reg1data     : out std_logic_vector(CPU_WORD-1 downto 0);                  -- Data output from the first read register
@@ -49,6 +50,7 @@ begin
     -- This handles register read and write operations and updates the flags register.
     reg_file: entity work.reg_file port map (
         clk         => clk,
+        rst         => rst,
         out_pc      => control_internal(CONT_OUT_PC),
         reg1addr    => reg1addr,
         reg2addr    => reg2addr,
@@ -62,10 +64,18 @@ begin
         pc_value    => pc_value
     );
 
+
     -- Process to update outputs at every clock edge.
-    process(clk)
+    process(clk, rst)
     begin
-        if rising_edge(clk) then
+        if rst = '0' then
+            control_out <= (others => '0');
+            reg1data <= (others => '0');
+            reg2data <= (others => '0');  
+            flags_out <= (others => '0'); 
+            pc_value <= (others => '0');  
+            imm12_out <= (others => '0'); 
+        elsif rising_edge(clk) then
             -- Pass the internal control signals to the external control_out port.
             control_out <= control_internal;
 
