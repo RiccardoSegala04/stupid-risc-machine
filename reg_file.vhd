@@ -21,7 +21,8 @@ entity reg_file is
                                                                                                                     
         reg1data     : out std_logic_vector(15 downto 0);  -- Data output from the first read register
         reg2data     : out std_logic_vector(15 downto 0);  -- Data output from the second read register
-        flags_out    : out std_logic_vector(15 downto 0)   -- Output of the flags register
+        flags_out    : out std_logic_vector(15 downto 0);  -- Output of the flags register
+        pc_value     : out std_logic_vector(15 downto 0)   -- Output for the program counter (GPR)
     );
 
 end entity;
@@ -29,8 +30,6 @@ end entity;
 -- Behavioral architecture for the register file
 architecture behavioural of reg_file is
 begin
-    -- Output the current state of the flags register
-    flags_out <= reg_array(REG_FLAGS);
 
     process(clk)
         -- Define the register array
@@ -58,6 +57,12 @@ begin
 
             -- Ensure register 0 (REG_0) always contains 0 (hardwired zero)
             registers(REG_0) <= (others => 0);
+
+            -- Output the PC for the fetch stage
+            pc_value <= registers(REG_PC);
+
+            -- Output the current state of the flags register
+            flags_out <= reg_array(REG_FLAGS);
 
         end if;
     end process;

@@ -21,12 +21,12 @@ begin
 
     process (addr, write_en, data_in) is
         type ram_array is array (0 to size) of
-        std_logic_vector(15 downto 0);
+        std_logic_vector(7 downto 0);
         variable mem : ram_array;
     begin
         if write_en = '1' then
-            mem(addr_int) := data_in;
+            mem(addr_int) := data_in(7 downto 0);
         end if;
-        data_out <= (others => '0'); -- mem(0);
+        data_out <= "00000000" & mem(0);
     end process;
 end architecture;

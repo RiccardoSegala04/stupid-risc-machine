@@ -9,8 +9,7 @@ entity execute is
     port(
         clk          : in std_logic;                                               -- Clock signal                            
         control_in   : in std_logic_vector(EXECUTE_STAGE_CONTROL_LEN-1 downto 0);  -- Control signals from decode stage
-        imm8_in      : in std_logic_vector(7 downto 0);                            -- 8-bit immediate value
-        dreg_in      : in std_logic_vector(3 downto 0);                            -- Destination register address
+        imm12_in     : in std_logic_vector(11 downto 0);                           -- 12-bit immediate value
         op1          : in std_logic_vector(CPU_WORD-1 downto 0);                   -- Operand 1 
         op2          : in std_logic_vector(CPU_WORD-1 downto 0);                   -- Operand 2 
         flags        : in std_logic_vector(CPU_WORD-1 downto 0);                   -- Processor status flags (flags register is a GPR)
@@ -46,7 +45,7 @@ begin
 
     -- Determine ALU second input based on control signal
     -- If CONT_OUT_PC is set, use immediate value (relative branch); otherwise, use op2
-    alu_in <= "00000000" & imm8_in when control_in(CONT_OUT_PC) = '1' else 
+    alu_in <= "0000" & imm12_in when control_in(CONT_OUT_PC) = '1' else 
               op2;
 
     -- Forwarding logic to update outputs on rising edge of the clock
@@ -57,7 +56,7 @@ begin
             control_out <= control_in(MEMORY_STAGE_CONTROL_LEN-1 downto 0);
 
             -- Combine destination register and immediate value for next stage
-            imm12_out <= dreg_in & imm8_in;
+            imm12_out <= imm12_in;
 
             -- Store the ALU result in the result output
             result <= alu_out;
