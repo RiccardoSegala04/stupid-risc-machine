@@ -50,19 +50,18 @@ begin
     alu_in <= "0000" & imm12_in when control_in(CONT_OUT_PC) = '1' else 
               op2;
 
-    reset: process(rst)
+    -- Forwarding logic to update outputs on rising edge of the clock
+    forward: process(clk, rst)
     begin
         if rst = '0' then
-            mem_addr_out <= (others => '0'); 
-            mem_data_out <= (others => '0'); 
-            result <= (others => '0');  
-        end if;
-    end process;
-
-    -- Forwarding logic to update outputs on rising edge of the clock
-    forward: process(clk)
-    begin
-        if rising_edge(clk) then
+            flags_wr <= '0'; 
+            flags_out <= (others => '0');
+            control_out <= (others => '0');
+            imm12_out <= (others => '0');
+            mem_addr_out <= (others => '0');
+            mem_data_out <= (others => '0');
+            result <= (others => '0'); 
+        elsif rising_edge(clk) then
             -- Pass through control signals for the next pipeline stage
             control_out <= control_in(MEMORY_STAGE_CONTROL_LEN-1 downto 0);
 

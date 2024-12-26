@@ -8,7 +8,7 @@ use work.common_const.all;
 -- register file access, and flag management in the CPU.
 entity decode is
     port (
-        clk          : in std_logic;                              -- Clock signal                                          
+        clk         : in std_logic;                               -- Clock signal                                          
         rst         : in std_logic;                               -- Reset signal
 
         opcode       : in std_logic_vector(3 downto 0);           -- Opcode to determine the operation type.

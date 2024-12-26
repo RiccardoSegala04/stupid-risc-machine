@@ -42,20 +42,15 @@ begin
     stage_out <= mem_out when control_in(CONT_MEM_RD) = '1'
                  else alu_data;
 
-    reset: process(rst)
+    -- Forwarding logic to pass signals to the next pipeline stage 
+    -- on the rising edge of the clock
+    forward: process(clk, rst)
     begin
         if rst = '0' then
             control_out <= (others => '0');
             data_out <= (others => '0'); 
             imm12_out <= (others => '0'); 
-        end if;
-    end process;
-
-    -- Forwarding logic to pass signals to the next pipeline stage 
-    -- on the rising edge of the clock
-    forward: process(clk)
-    begin
-        if rising_edge(clk) then
+        elsif rising_edge(clk) then
             -- Forward control signals (subset of control_in) to the next stage
             control_out <= control_in(WRITEBACK_STAGE_CONTROL_LEN-1 downto 0);
 

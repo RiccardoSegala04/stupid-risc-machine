@@ -23,17 +23,11 @@ begin
         data => rom_out
     );
 
-    reset: process(rst)
+    forward: process(clk, rst)
     begin
         if rst = '0' then
             rom_data <= (others => '0');
-        end if;
-    end process;
-
-
-    forward: process(clk)
-    begin
-        if rising_edge(clk) then
+        elsif rising_edge(clk) then
             rom_data <= rom_out;
         end if;
     end process;

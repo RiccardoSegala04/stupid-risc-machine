@@ -42,7 +42,7 @@ begin
 
     process(clk, rst)
         -- Define the register array
-        type reg_array is array(0 to 15) of std_logic_vector(15 downto 0);
+        type reg_array is array(0 to 15) of std_logic_vector(CPU_WORD-1 downto 0);
         variable registers : reg_array;
     begin
         if rst = '0' then
@@ -51,8 +51,17 @@ begin
             flags_out <= (others => '0');
             pc_value <= (others => '0');
 
+            -- for k in 0 to registers'length-1 loop
+            --     registers(k) := (others => '0');
+            -- end loop;
+
             registers(REG_PC) := (others => '0');
             registers(REG_FLAGS) := (others => '0');
+
+            registers(0) := (others => '0');
+            registers(2) := std_logic_vector(to_unsigned(1, CPU_WORD));
+            registers(3) := std_logic_vector(to_unsigned(2, CPU_WORD));
+
         elsif rising_edge(clk) then
             -- Output selected registers
             reg1data <= registers(reg1addr_int);
