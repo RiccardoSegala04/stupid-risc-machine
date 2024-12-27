@@ -60,7 +60,7 @@ begin
 
             registers(0) := (others => '0');
             registers(2) := std_logic_vector(to_unsigned(1, CPU_WORD));
-            registers(3) := std_logic_vector(to_unsigned(2, CPU_WORD));
+            registers(1) := std_logic_vector(to_unsigned(0, CPU_WORD));
 
         elsif rising_edge(clk) then
             -- Output selected registers

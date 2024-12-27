@@ -98,7 +98,6 @@ begin
     );
 
     writeback: entity work.writeback port map (
-        rst        => rst,
         control_in => memory_control_out,
         mem_data   => memory_data_out,
         imm12      => memory_imm12_out,

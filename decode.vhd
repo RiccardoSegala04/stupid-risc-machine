@@ -70,11 +70,8 @@ begin
     begin
         if rst = '0' then
             control_out <= (others => '0');
-            reg1data <= (others => '0');
-            reg2data <= (others => '0');  
-            flags_out <= (others => '0'); 
-            pc_value <= (others => '0');  
             imm12_out <= (others => '0'); 
+            flags_out <= (others => '0');
         elsif rising_edge(clk) then
             -- Pass the internal control signals to the external control_out port.
             control_out <= control_internal;

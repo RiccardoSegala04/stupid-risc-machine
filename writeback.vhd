@@ -6,7 +6,6 @@ use work.common_const.all;
 entity writeback is
     port(
         control_in  : in std_logic_vector(2 downto 0);
-        rst         : in std_logic;                             
         
         mem_data    : in std_logic_vector(CPU_WORD-1 downto 0);
         imm12      : in std_logic_vector(11 downto 0);
@@ -26,13 +25,5 @@ begin
             else
               REG_PC_LOGIC_VEC when control_in(CONT_WB_SEL) = '0'
               else imm12(11 downto 8);
-
-    reset: process(rst)
-    begin
-        if rst = '0' then
-            wb_data <= (others => '0');
-            wb_reg <= (others => '0');
-        end if;
-    end process;
 
 end behavioural;
