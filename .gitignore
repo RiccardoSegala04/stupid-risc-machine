@@ -1,2 +1,5 @@
 *.vcd
+*.o
 *.cf
+*.ghw
+signals
