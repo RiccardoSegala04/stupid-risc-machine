@@ -1,0 +1,79 @@
+#once
+
+#bankdef progmem {
+    #bits 16
+    #addr 0x0000
+    #size 0x65536
+    #labelalign
+    #outp 0
+}
+
+#const(noemit) r0   = 0`4
+#const(noemit) r1   = 1`4
+#const(noemit) r2   = 2`4
+#const(noemit) r3   = 3`4
+#const(noemit) r4   = 4`4
+#const(noemit) r5   = 5`4
+#const(noemit) r6   = 6`4
+#const(noemit) r7   = 7`4
+#const(noemit) r8   = 8`4
+#const(noemit) r9   = 9`4
+#const(noemit) r10  = 10`4
+#const(noemit) r11  = 11`4
+#const(noemit) r12  = 12`4
+#const(noemit) r13  = 13`4
+#const(noemit) rPC  = 14`4
+#const(noemit) rFLG = 15`4
+
+#subruledef reg {
+    r0      => r0 
+    r1      => r1 
+    r2      => r2 
+    r3      => r3 
+    r4      => r4 
+    r5      => r5 
+    r6      => r6 
+    r7      => r7 
+    r8      => r8 
+    r9      => r9 
+    r10     => r10 
+    r11     => r11 
+    r12     => r12 
+    r13     => r13 
+    rPC     => rPC 
+    rFLG    => rFLG 
+}
+
+#fn absToRelAddr(addr) => {
+    reladdr = addr - $
+    assert(reladdr <= 0x800, "Relative address is too far form PC")
+    assert(reladdr >= !0x800, "Relative address is too far form PC")
+    reladdr`12
+}
+
+#ruledef opcodes {
+    adc {out: reg}, {in1: reg}, {in2: reg} => 0b0 @ 0`3 @ out @ in1 @ in2
+    sbc {out: reg}, {in1: reg}, {in2: reg} => 0b0 @ 1`3 @ out @ in1 @ in2
+    and {out: reg}, {in1: reg}, {in2: reg} => 0b0 @ 2`3 @ out @ in1 @ in2
+    or  {out: reg}, {in1: reg}, {in2: reg} => 0b0 @ 3`3 @ out @ in1 @ in2
+    not {out: reg}, {in1: reg}             => 0b0 @ 4`3 @ out @ in1 @ r0
+    sl  {out: reg}, {in1: reg}             => 0b0 @ 5`3 @ out @ in1 @ r0
+    sr  {out: reg}, {in1: reg}             => 0b0 @ 6`3 @ out @ in1 @ r0
+    cmp             {in1: reg}, {in2: reg} => 0b0 @ 7`3 @ r0  @ in1 @ in2
+
+    add {dst: reg}, {in1: reg}, {in2: reg} => 0b1 @ 0`3 @ dst @ in1 @ in2
+    jeq #{addr: s16} => {
+        0b1 @ 1`3 @ absToRelAddr(addr)
+    }
+    jgt #{addr: s16} => {
+        0b1 @ 2`3 @ absToRelAddr(addr)
+    }
+    jlt #{addr: s16} => {
+        0b1 @ 3`3 @ absToRelAddr(addr)
+    }
+    ld {dest: reg}, [{addr_reg: reg}]      => 0b1 @ 4`3 @ dest @ addr_reg @ r0
+    ldl {dest: reg}, #{imm: i8}            => 0b1 @ 5`3 @ dest @ imm
+    ldh {dest: reg}, #{imm: i8}            => 0b1 @ 7`3 @ dest @ imm    
+    st [{addr_reg: reg}], {src: reg}       => 0b1 @ 7`3 @ addr_reg @ src @ r0
+}
+

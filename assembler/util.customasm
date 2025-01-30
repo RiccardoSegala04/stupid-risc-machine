@@ -1,0 +1,29 @@
+#once
+#include "stupid-risc-machine.customasm"
+
+#ruledef {
+    mov {dest: reg}, {src: reg} => asm {
+        add {dest}, {src}, r0
+    }
+
+    nop => asm {
+        mov r0, r0
+    }
+    ldw {dest: reg}, #{imm: i16} => asm {
+        ldh {dest}, #{imm}[15:8]
+        ldl {dest}, #{imm}[7:0]
+    }
+
+    jmp {addr_reg: reg} => asm {
+        mov rPC, {addr_reg}
+    }
+
+    jmp #{addr: i16}, {reg1 : reg} => {
+        assert(reg1 != r0, "Cannot use r0 as auxiliary register")
+        asm {
+            ldw {reg1}, #{addr}
+            jmp {reg1}
+        }
+    }
+}
+
