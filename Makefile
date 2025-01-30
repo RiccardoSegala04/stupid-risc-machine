@@ -5,7 +5,7 @@ TB_FOLDER = testbenches/
 SIGNALS_FOLDER = signals/
 
 CONSTS = common_const
-ENTITIES = ram memory alu execute control reg_file decode writeback rom fetch risc 
+ENTITIES = ram memory alu execute control reg_file decode writeback risc 
 TB = alu_tb reg_file_tb decode_tb writeback_tb risc_tb 
 
 CONST_FILES = $(addprefix $(ENTITIES_FOLDER), $(CONSTS))

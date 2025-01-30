@@ -41,13 +41,6 @@ architecture behavioural of risc is
     signal writeback_wb_reg : std_logic_vector(3 downto 0);
 
 begin
-    fetch: entity work.fetch port map (
-        clk      => clk,
-        rst      => rst,
-        rom_addr => decode_pc_value,
-        rom_data => fetch_operation
-    );
-
     decode: entity work.decode port map (
         clk              => clk,
         rst              => rst,
@@ -88,12 +81,14 @@ begin
         clk         => clk,
         rst         => rst,
         control_in  => execute_control_out,
-        mem_addr    => execute_mem_addr_out,
-        mem_data    => execute_mem_data_out,
+        pgm_addr    => decode_pc_value,
+        pgm_data    => fetch_operation,
+        ram_addr    => execute_mem_addr_out,
+        ram_data    => execute_mem_data_out,
         alu_data    => execute_result,
         imm12_in    => execute_imm12_out,
         control_out => memory_control_out,
-        data_out    => memory_data_out,
+        mem_data    => memory_data_out,
         imm12_out   => memory_imm12_out
     );
 
