@@ -10,14 +10,14 @@ entity memory is
     port(                                                                                             
         clk         : in std_logic;                                                  -- Clock signal
         rst         : in std_logic;                                                  -- Reset signal
-                                                                                                      
+
         control_in  : in std_logic_vector(MEMORY_STAGE_CONTROL_LEN-1 downto 0);      -- Control signals from the previous stage
-        pgm_addr    : in std_logic_vector(15 downto 0);                              -- Address for program memory access (fetch)
+        pgm_addr    : in std_logic_vector(CPU_WORD-1 downto 0);                              -- Address for program memory access (fetch)
         ram_addr    : in std_logic_vector(CPU_WORD-1 downto 0);                      -- Address for memory access
         ram_data    : in std_logic_vector(CPU_WORD-1 downto 0);                      -- Data to be written to memory
         alu_data    : in std_logic_vector(CPU_WORD-1 downto 0);                      -- Data from the ALU
         imm12_in    : in std_logic_vector(11 downto 0);                              -- Immediate 12 bit value input (wb_reg & imm8)
-                                                                                                      
+
         control_out : out std_logic_vector(WRITEBACK_STAGE_CONTROL_LEN-1 downto 0);  -- Control signals for the next stage
 
         pgm_data    : out std_logic_vector(15 downto 0);                             -- Next instruction to be executed (fetch)
@@ -34,11 +34,12 @@ begin
     ram: entity work.ram
         generic map(size => 65536)                
         port map(
+            clk       => clk,
             write_en  => control_in(CONT_MEM_WR),
             addr0     => ram_addr,
-            out0      => mem_data,
+            out0      => ram_out,
             addr1     => pgm_addr,
-            out1      => pgm_data,
+            out1      => pgm_out,
             in0       => ram_data
         );
 
