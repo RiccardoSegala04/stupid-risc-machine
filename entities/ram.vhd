@@ -30,7 +30,7 @@ begin
     process (addr0, addr1, write_en, in0) is
     begin
         if write_en = '1' then
-            mem(addr0_int) <= in0(7 downto 0);
+            mem(addr0_int) <= in0;
         end if;
         out0 <= mem(0);
         out1 <= mem(0);
