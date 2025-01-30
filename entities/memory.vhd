@@ -34,7 +34,6 @@ begin
     ram: entity work.ram
         generic map(size => 65536)                
         port map(
-            clk       => clk,
             write_en  => control_in(CONT_MEM_WR),
             addr0     => ram_addr,
             out0      => ram_out,
