@@ -40,7 +40,6 @@ begin
     -- Instantiate the control unit.
     -- This generates control signals based on the opcode and flags.
     control: entity work.control port map (
-        clk         => clk,
         opcode      => opcode,
         flags       => flags_internal,
         control_out => control_internal

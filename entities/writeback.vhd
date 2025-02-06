@@ -18,8 +18,9 @@ end writeback;
 architecture behavioural of writeback is
 begin
 
-    wb_data <= ("0000" & imm12(11 downto 4)) when control_in(CONT_IMM) = '1'
+    wb_data <= ("00000000" & imm12(11 downto 4)) when control_in(CONT_IMM) = '1'
                else mem_data;
+
     wb_reg <= 
             REG_0_LOGIC_VEC when control_in(CONT_WB_EN) = '0'
             else

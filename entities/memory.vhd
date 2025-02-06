@@ -12,7 +12,7 @@ entity memory is
         rst         : in std_logic;                                                  -- Reset signal
 
         control_in  : in std_logic_vector(MEMORY_STAGE_CONTROL_LEN-1 downto 0);      -- Control signals from the previous stage
-        pgm_addr    : in std_logic_vector(CPU_WORD-1 downto 0);                              -- Address for program memory access (fetch)
+        pgm_addr    : in std_logic_vector(CPU_WORD-1 downto 0);                      -- Address for program memory access (fetch)
         ram_addr    : in std_logic_vector(CPU_WORD-1 downto 0);                      -- Address for memory access
         ram_data    : in std_logic_vector(CPU_WORD-1 downto 0);                      -- Data to be written to memory
         alu_data    : in std_logic_vector(CPU_WORD-1 downto 0);                      -- Data from the ALU
@@ -56,6 +56,7 @@ begin
             control_out <= (others => '0');
             mem_data <= (others => '0'); 
             imm12_out <= (others => '0'); 
+            pgm_data <= "0000000000001111"; 
         elsif rising_edge(clk) then
             -- Forward control signals (subset of control_in) to the next stage
             control_out <= control_in(WRITEBACK_STAGE_CONTROL_LEN-1 downto 0);
