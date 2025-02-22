@@ -27,6 +27,81 @@ begin
             --     -- Generate control signals for MOV instruction.
             --     control_out <= CTRL_MOV;
 
+            when OP_ADC =>
+                -- Generate control signals for ADC instruction.
+                control_out <= CF_OP_ADC or
+                               CF_WB_EN;
+            when OP_SBC =>
+                -- Generate control signals for SBC instruction.
+                control_out <= CF_OP_SBC or
+                               CF_WB_EN;
+            when OP_AND =>
+                -- Generate control signals for AND instruction.
+                control_out <= CF_OP_AND or
+                               CF_WB_EN;
+            when OP_OR =>
+                -- Generate control signals for OR instruction.
+                control_out <= CF_OP_OR or
+                               CF_WB_EN;
+            when OP_NOT =>
+                -- Generate control signals for NOT instruction.
+                control_out <= CF_OP_NOT or
+                               CF_WB_EN;
+            when OP_SL =>
+                -- Generate control signals for SL instruction.
+                control_out <= CF_OP_SL or
+                               CF_WB_EN or
+                               CF_ALU_IN2_SEL;
+            when OP_SR =>
+                -- Generate control signals for SR instruction.
+                control_out <= CF_OP_SR or
+                               CF_WB_EN or
+                               CF_ALU_IN2_SEL;
+            when OP_MUL =>
+                -- Generate control signals for MUL instruction.
+                control_out <= CF_OP_MUL or
+                               CF_WB_EN;
+            when OP_ADD =>
+                -- Generate control signals for ADD instruction.
+                control_out <= CF_OP_ADD or
+                               CF_WB_EN;
+            when OP_JEQ_REL =>
+                -- Generate control signals for JEQ instruction.
+                control_out <= CF_OP_SEQ or
+                               CF_OUT_PC or
+                               CF_ALU_IN2_SEL or
+                               CF_WB_EN or
+                               CF_WB_SEL;
+            when OP_JGT_REL =>
+                -- Generate control signals for JGT instruction.
+                control_out <= CF_OP_SGT or
+                               CF_OUT_PC or
+                               CF_ALU_IN2_SEL or
+                               CF_WB_EN or
+                               CF_WB_SEL;
+            when OP_JLT_REL =>
+                -- Generate control signals for JLT instruction.
+                control_out <= CF_OP_SLT or
+                               CF_OUT_PC or
+                               CF_ALU_IN2_SEL or
+                               CF_WB_EN or
+                               CF_WB_SEL;
+            when OP_LOAD_MEM =>
+                -- Generate control signals for LOAD_MEM instruction.
+                control_out <= CF_OP_ADD or
+                               CF_MEM_RD or
+                               CF_WB_EN;
+            when OP_LOAD_IMM =>
+                -- Generate control signals for LOAD_IMM instruction.
+                control_out <= CF_OP_ADD or -- It doesn't matter
+                               CF_IMM or
+                               CF_WB_EN;
+            when OP_STORE =>
+                -- Generate control signals for STORE instruction.
+                control_out <= CF_OP_ADD_IMM4 or 
+                               CF_ALU_IN2_SEL or
+                               CF_MEM_WR;
+
             when others =>
                 control_out <= (others => '0');
 

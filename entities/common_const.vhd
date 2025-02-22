@@ -1,5 +1,6 @@
 library ieee;
 use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
 
 package common_const is
 
@@ -25,7 +26,7 @@ package common_const is
     constant OP_NOT      : std_logic_vector(CPU_OPCODE_LEN-1 downto 0) := "0101";
     constant OP_SL       : std_logic_vector(CPU_OPCODE_LEN-1 downto 0) := "0110";
     constant OP_SR       : std_logic_vector(CPU_OPCODE_LEN-1 downto 0) := "0111";
-    constant OP_CMP      : std_logic_vector(CPU_OPCODE_LEN-1 downto 0) := "1000";
+    constant OP_MUL      : std_logic_vector(CPU_OPCODE_LEN-1 downto 0) := "1000";
     constant OP_ADD      : std_logic_vector(CPU_OPCODE_LEN-1 downto 0) := "1001";
     constant OP_JEQ_REL  : std_logic_vector(CPU_OPCODE_LEN-1 downto 0) := "1010";
     constant OP_JGT_REL  : std_logic_vector(CPU_OPCODE_LEN-1 downto 0) := "1011";
@@ -42,13 +43,12 @@ package common_const is
     constant ALU_NOT      : std_logic_vector(ALU_OPCODE_LEN-1 downto 0) := "0100";
     constant ALU_SL       : std_logic_vector(ALU_OPCODE_LEN-1 downto 0) := "0101";
     constant ALU_SR       : std_logic_vector(ALU_OPCODE_LEN-1 downto 0) := "0110";
-    constant ALU_CMP      : std_logic_vector(ALU_OPCODE_LEN-1 downto 0) := "0111";
+    constant ALU_MUL      : std_logic_vector(ALU_OPCODE_LEN-1 downto 0) := "0111";
     constant ALU_ADD      : std_logic_vector(ALU_OPCODE_LEN-1 downto 0) := "1000";
     constant ALU_SEQ      : std_logic_vector(ALU_OPCODE_LEN-1 downto 0) := "1001";
     constant ALU_SGT      : std_logic_vector(ALU_OPCODE_LEN-1 downto 0) := "1010";
     constant ALU_SLT      : std_logic_vector(ALU_OPCODE_LEN-1 downto 0) := "1011";
-    constant ALU_IMM_LOW  : std_logic_vector(ALU_OPCODE_LEN-1 downto 0) := "1100";
-    constant ALU_ADD_IMM4 : std_logic_vector(ALU_OPCODE_LEN-1 downto 0) := "1101";
+    constant ALU_ADD_IMM4 : std_logic_vector(ALU_OPCODE_LEN-1 downto 0) := "1100";
 
     -- CONTROL SIGNALS
     constant CONT_WB_SEL      : integer := 0;
@@ -62,6 +62,29 @@ package common_const is
     constant CONT_OP_ALU_1    : integer := 8;
     constant CONT_OP_ALU_2    : integer := 9;
     constant CONT_OP_ALU_3    : integer := 10;
+
+    -- CONTROL SIGNALS FLAGS
+    constant CF_WB_SEL      : std_logic_vector(CPU_CONTROL_LEN-1 downto 0) := "00000000001";
+    constant CF_WB_EN       : std_logic_vector(CPU_CONTROL_LEN-1 downto 0) := "00000000010";
+    constant CF_IMM         : std_logic_vector(CPU_CONTROL_LEN-1 downto 0) := "00000000100";
+    constant CF_MEM_RD      : std_logic_vector(CPU_CONTROL_LEN-1 downto 0) := "00000001000";
+    constant CF_MEM_WR      : std_logic_vector(CPU_CONTROL_LEN-1 downto 0) := "00000010000";
+    constant CF_OUT_PC      : std_logic_vector(CPU_CONTROL_LEN-1 downto 0) := "00000100000";
+    constant CF_ALU_IN2_SEL : std_logic_vector(CPU_CONTROL_LEN-1 downto 0) := "00001000000";
+
+    constant CF_OP_ADC      : std_logic_vector(CPU_CONTROL_LEN-1 downto 0) := ALU_ADC      & "0000000";
+    constant CF_OP_SBC      : std_logic_vector(CPU_CONTROL_LEN-1 downto 0) := ALU_SBC      & "0000000";
+    constant CF_OP_AND      : std_logic_vector(CPU_CONTROL_LEN-1 downto 0) := ALU_AND      & "0000000";
+    constant CF_OP_OR       : std_logic_vector(CPU_CONTROL_LEN-1 downto 0) := ALU_OR       & "0000000";
+    constant CF_OP_NOT      : std_logic_vector(CPU_CONTROL_LEN-1 downto 0) := ALU_NOT      & "0000000";
+    constant CF_OP_SL       : std_logic_vector(CPU_CONTROL_LEN-1 downto 0) := ALU_SL       & "0000000";
+    constant CF_OP_SR       : std_logic_vector(CPU_CONTROL_LEN-1 downto 0) := ALU_SR       & "0000000";
+    constant CF_OP_MUL      : std_logic_vector(CPU_CONTROL_LEN-1 downto 0) := ALU_MUL      & "0000000";
+    constant CF_OP_ADD      : std_logic_vector(CPU_CONTROL_LEN-1 downto 0) := ALU_ADD      & "0000000";
+    constant CF_OP_SEQ      : std_logic_vector(CPU_CONTROL_LEN-1 downto 0) := ALU_SEQ      & "0000000";
+    constant CF_OP_SGT      : std_logic_vector(CPU_CONTROL_LEN-1 downto 0) := ALU_SGT      & "0000000";
+    constant CF_OP_SLT      : std_logic_vector(CPU_CONTROL_LEN-1 downto 0) := ALU_SLT      & "0000000";
+    constant CF_OP_ADD_IMM4 : std_logic_vector(CPU_CONTROL_LEN-1 downto 0) := ALU_ADD_IMM4 & "0000000";
 
     -- REGISTER ADDRESSES
     constant REG_0_LOGIC_VEC     : std_logic_vector(3 downto 0) := "0000";

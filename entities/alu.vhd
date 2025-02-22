@@ -42,7 +42,7 @@ begin
                 result <= op1u(CPU_WORD-1 downto 0) & '0';
             when ALU_SR  => 
                 result <= '0' & op1u(CPU_WORD-1 downto 0);
-            when ALU_CMP => 
+            when ALU_MUL => 
                 result <= (others => '0');
 
             when ALU_ADD => 
@@ -53,8 +53,6 @@ begin
                 result <= resize(op1u, CPU_WORD+1);
             when ALU_SLT =>                       
                 result <= resize(op1u, CPU_WORD+1);
-            when ALU_IMM_LOW => 
-                result <= (others => '0'); 
             when ALU_ADD_IMM4 => 
                 result <= (others => '0');
             when others => 
