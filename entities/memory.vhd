@@ -13,7 +13,6 @@ entity memory is
 
         control_in  : in std_logic_vector(MEMORY_STAGE_CONTROL_LEN-1 downto 0);      -- Control signals from the previous stage
         pgm_addr    : in std_logic_vector(CPU_WORD-1 downto 0);                      -- Address for program memory access (fetch)
-        ram_addr    : in std_logic_vector(CPU_WORD-1 downto 0);                      -- Address for memory access
         ram_data    : in std_logic_vector(CPU_WORD-1 downto 0);                      -- Data to be written to memory
         alu_data    : in std_logic_vector(CPU_WORD-1 downto 0);                      -- Data from the ALU
         imm12_in    : in std_logic_vector(11 downto 0);                              -- Immediate 12 bit value input (wb_reg & imm8)
@@ -35,7 +34,7 @@ begin
         generic map(size => 65536)                
         port map(
             write_en  => control_in(CONT_MEM_WR),
-            addr0     => ram_addr,
+            addr0     => alu_data,
             out0      => ram_out,
             addr1     => pgm_addr,
             out1      => pgm_out,

@@ -12,7 +12,6 @@ architecture testbench of memory_tb is
 
         signal control_in  : std_logic_vector(MEMORY_STAGE_CONTROL_LEN-1 downto 0);      -- Control signals from the previous stage
         signal pgm_addr    : std_logic_vector(15 downto 0);                              -- Address for program memory access (fetch)
-        signal ram_addr    : std_logic_vector(CPU_WORD-1 downto 0);                      -- Address for memory access
         signal ram_data    : std_logic_vector(CPU_WORD-1 downto 0);                      -- Data to be written to memory
         signal alu_data    : std_logic_vector(CPU_WORD-1 downto 0);                      -- Data from the ALU
         signal imm12_in    : std_logic_vector(11 downto 0);                              -- Immediate 12 bit value input (wb_reg & imm8)
@@ -30,7 +29,6 @@ begin
         rst         => rst,       
         control_in  => control_in,
         pgm_addr    => pgm_addr, 
-        ram_addr    => ram_addr,   
         ram_data    => ram_data,   
         alu_data    => alu_data,   
         imm12_in    => imm12_in,   
@@ -56,7 +54,6 @@ begin
 
         control_in <= "10000";
         pgm_addr <= (others => '0');
-        ram_addr <= (others => '0');
         ram_data <= (others => '1');
         alu_data <= (others => '0');
         imm12_in <= (others => '1');
@@ -64,7 +61,6 @@ begin
         wait for 40 ns;
 
         control_in <= "01000";
-        ram_addr <= (others => '0');
         ram_data <= (others => '1');
         alu_data <= (others => '0');
         imm12_in <= (others => '1');
@@ -72,7 +68,6 @@ begin
         wait for 40 ns;
 
         control_in <= "00000";
-        ram_addr <= (others => '0');
         ram_data <= (others => '1');
         alu_data <= (others => '0');
         imm12_in <= (others => '1');

@@ -27,7 +27,6 @@ architecture behavioural of risc is
     signal execute_flags_out    : std_logic_vector(CPU_WORD-1 downto 0);                  
     signal execute_control_out  : std_logic_vector(MEMORY_STAGE_CONTROL_LEN-1 downto 0);  
     signal execute_imm12_out    : std_logic_vector(11 downto 0);                           
-    signal execute_mem_addr_out : std_logic_vector(CPU_WORD-1 downto 0);                 
     signal execute_mem_data_out : std_logic_vector(CPU_WORD-1 downto 0);                 
     signal execute_result       : std_logic_vector(CPU_WORD-1 downto 0);
 
@@ -72,7 +71,6 @@ begin
         flags_out    => execute_flags_out,   
         control_out  => execute_control_out, 
         imm12_out    => execute_imm12_out,   
-        mem_addr_out => execute_mem_addr_out,
         mem_data_out => execute_mem_data_out,
         result       => execute_result      
     );
@@ -83,7 +81,6 @@ begin
         control_in  => execute_control_out,
         pgm_addr    => decode_pc_value,
         pgm_data    => fetch_operation,
-        ram_addr    => execute_mem_addr_out,
         ram_data    => execute_mem_data_out,
         alu_data    => execute_result,
         imm12_in    => execute_imm12_out,

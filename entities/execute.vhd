@@ -20,7 +20,6 @@ entity execute is
         flags_out    : out std_logic_vector(CPU_WORD-1 downto 0);                  -- Updated processor status flags
         control_out  : out std_logic_vector(MEMORY_STAGE_CONTROL_LEN-1 downto 0);  -- Control signals for next stage
         imm12_out    : out std_logic_vector(11 downto 0);                          -- 12-bit immediate value for next stage (dreg + imm8)
-        mem_addr_out : out std_logic_vector(CPU_WORD-1 downto 0);                  -- Memory address output (op1)
         mem_data_out : out std_logic_vector(CPU_WORD-1 downto 0);                  -- Data to be written to memory (op2)
         result       : out std_logic_vector(CPU_WORD-1 downto 0)                   -- Result of ALU operation
     );
@@ -58,7 +57,6 @@ begin
             flags_out <= (others => '0');
             control_out <= (others => '0');
             imm12_out <= (others => '0');
-            mem_addr_out <= (others => '0');
             mem_data_out <= (others => '0');
             result <= (others => '0'); 
         elsif rising_edge(clk) then
@@ -72,8 +70,7 @@ begin
             result <= alu_out;
 
             -- Set memory address and memory data outputs for memory stage
-            mem_addr_out <= op2;
-            mem_data_out <= op1;
+            mem_data_out <= op2;
         end if;
     end process;
 end behavioural;
