@@ -27,10 +27,10 @@ entity execute is
 end execute;
 
 architecture behavioural of execute is
-    signal alu_op    : std_logic_vector(2 downto 0);          -- ALU opcode
-    signal alu_in    : std_logic_vector(CPU_WORD-1 downto 0); -- ALU multiplexed input (imm12 or op2)
-    signal alu_out   : std_logic_vector(CPU_WORD-1 downto 0); -- ALU output (latched)
-    signal alu_flags : std_logic_vector(CPU_WORD-1 downto 0); -- ALU flags output (latched)
+    signal alu_op    : std_logic_vector(ALU_OPCODE_LEN-1 downto 0); -- ALU opcode
+    signal alu_in    : std_logic_vector(CPU_WORD-1 downto 0);       -- ALU multiplexed input (imm12 or op2)
+    signal alu_out   : std_logic_vector(CPU_WORD-1 downto 0);       -- ALU output (latched)
+    signal alu_flags : std_logic_vector(CPU_WORD-1 downto 0);       -- ALU flags output (latched)
 begin
     alu: entity work.alu
         port map(
@@ -43,7 +43,7 @@ begin
         );
 
     -- Extract ALU operation code from control signals
-    alu_op <= control_in(CONT_OP_ALU_2 downto CONT_OP_ALU_0);
+    alu_op <= control_in(CONT_OP_ALU_3 downto CONT_OP_ALU_0);
 
     -- Determine ALU second input based on control signal
     -- If CONT_OUT_PC is set, use immediate value (relative branch); otherwise, use op2

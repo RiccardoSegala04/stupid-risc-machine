@@ -6,7 +6,7 @@ entity alu_tb is
 end alu_tb;
 
 architecture testbench of alu_tb is
-    signal opcode    : std_logic_vector(2 downto 0);
+    signal opcode    : std_logic_vector(3 downto 0);
     signal op1       : std_logic_vector(15 downto 0);
     signal op2       : std_logic_vector(15 downto 0);
     signal flags_in  : std_logic_vector(15 downto 0);
@@ -31,7 +31,7 @@ begin
         op2 <= "0000000000000001";
 
         for op in 0 to 7 loop
-            opcode <= std_logic_vector(to_unsigned(op, 3));
+            opcode <= std_logic_vector(to_unsigned(op, 4));
             wait for 10 ns;
         end loop;
         wait;
