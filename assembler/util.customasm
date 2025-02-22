@@ -1,6 +1,13 @@
 #once
 #include "stupid-risc-machine.customasm"
 
+#fn absToRelAddr(addr) => {
+    reladdr = addr - $
+    assert(reladdr <= 0x800, "Relative address is too far form PC")
+    assert(reladdr >= !0x800, "Relative address is too far form PC")
+    reladdr`12
+}
+
 #ruledef {
     mov {dest: reg}, {src: reg} => asm {
         add {dest}, {src}, r0
@@ -23,6 +30,22 @@
         asm {
             ldw {reg1}, #{addr}
             jmp {reg1}
+        }
+    }
+
+    jeq ##{abs_addr: s16} => {
+        asm {
+            jeq #{absToRelAddr(abs_addr)}
+        }
+    }
+    jgt ##{abs_addr: s16} => {
+        asm {
+            jgt #{absToRelAddr(abs_addr)}
+        }
+    }
+    jel ##{abs_addr: s16} => {
+        asm {
+            jel #{absToRelAddr(abs_addr)}
         }
     }
 }
