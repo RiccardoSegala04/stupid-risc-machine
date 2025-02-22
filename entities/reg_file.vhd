@@ -71,7 +71,7 @@ begin
             if out_pc = '1' then
                 reg1data <= registers(REG_PC);
             end if;
-        
+
             -- Write to the flags register if flags_wr is high
             -- (execute stage wants to write the flags register)
             if flags_wr = '1' then
@@ -90,6 +90,8 @@ begin
             -- Output the current state of the flags register
             flags_out <= registers(REG_FLAGS);
 
+        elsif falling_edge(clk) then
+            registers(REG_PC) := std_logic_vector(unsigned(registers(REG_PC)) + 1);
         end if;
     end process;
 
