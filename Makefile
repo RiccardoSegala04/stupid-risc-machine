@@ -20,7 +20,7 @@ OBJS = $(addsuffix .o, $(TARGETS))
 WORK = work-obj93.cf
 
 work-obj93.cf: $(VHD) 
-	ghdl -c $(VHD) 
+	ghdl -c $(VHD)
 
 %.o: %.vhd $(WORK)
 	ghdl -a $<

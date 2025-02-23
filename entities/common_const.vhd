@@ -50,6 +50,12 @@ package common_const is
     constant ALU_SLT      : std_logic_vector(ALU_OPCODE_LEN-1 downto 0) := "1011";
     constant ALU_ADD_IMM4 : std_logic_vector(ALU_OPCODE_LEN-1 downto 0) := "1100";
 
+    -- FLAGS
+    constant FLAGS_CARRY    : integer := 0;
+    constant FLAGS_ZERO     : integer := 1;
+    constant FLAGS_NEGATIVE : integer := 2;
+    constant FLAGS_OVERFLOW : integer := 3;
+
     -- CONTROL SIGNALS
     constant CONT_WB_SEL      : integer := 0;
     constant CONT_WB_EN       : integer := 1;
