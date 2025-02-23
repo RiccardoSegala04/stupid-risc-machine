@@ -15,6 +15,12 @@ entity execute is
         op1          : in std_logic_vector(CPU_WORD-1 downto 0);                   -- Operand 1 
         op2          : in std_logic_vector(CPU_WORD-1 downto 0);                   -- Operand 2 
         flags        : in std_logic_vector(CPU_WORD-1 downto 0);                   -- Processor status flags (flags register is a GPR)
+
+        -- HECU
+        hecu_wb_sel  : out std_logic;
+        hecu_wb_en   : out std_logic;
+        hecu_wb_reg  : out std_logic_vector(3 downto 0);
+        hecu_data    : out std_logic_vector(CPU_WORD-1 downto 0);
                                                                                                      
         flags_wr     : out std_logic;                                              -- Flag indicating if flags needs to be written
         flags_out    : out std_logic_vector(CPU_WORD-1 downto 0);                  -- Updated processor status flags
@@ -40,6 +46,12 @@ begin
             output    => alu_out,     -- Result from the ALU
             flags_out => alu_flags    -- Updated flags from the ALU
         );
+
+    -- HECU
+    hecu_wb_sel <= control_in(CONT_WB_SEL);
+    hecu_wb_en  <= control_in(CONT_WB_EN);
+    hecu_wb_reg <= imm12_in(3 downto 0);
+    hecu_data   <= alu_out;
 
     -- Extract ALU operation code from control signals
     alu_op <= control_in(CONT_OP_ALU_3 downto CONT_OP_ALU_0);

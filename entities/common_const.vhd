@@ -8,6 +8,7 @@ package common_const is
     constant CPU_WORD                    : integer := 16;
     constant CPU_OPCODE_LEN              : integer := 4;
     constant CPU_CONTROL_LEN             : integer := 11;
+    constant CPU_REG_ADDR_LEN            : integer := 4;
 
     -- ALU GENERAL
     constant ALU_OPCODE_LEN              : integer := 4;
@@ -126,5 +127,10 @@ package common_const is
     constant REG_13    : integer := 13;
     constant REG_PC    : integer := 14;
     constant REG_FLAGS : integer := 15;
+
+    -- HECU
+    constant HECU_SEL_REG : std_logic_vector(1 downto 0) := "00";
+    constant HECU_SEL_MEM : std_logic_vector(1 downto 0) := "01";
+    constant HECU_SEL_EXE : std_logic_vector(1 downto 0) := "10";
 
 end package common_const;

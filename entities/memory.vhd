@@ -17,6 +17,12 @@ entity memory is
         alu_data    : in std_logic_vector(CPU_WORD-1 downto 0);                      -- Data from the ALU
         imm12_in    : in std_logic_vector(11 downto 0);                              -- Immediate 12 bit value input (wb_reg & imm8)
 
+        -- HECU
+        hecu_wb_sel  : out std_logic;
+        hecu_wb_en   : out std_logic;
+        hecu_wb_reg  : out std_logic_vector(3 downto 0);
+        hecu_data    : out std_logic_vector(CPU_WORD-1 downto 0);
+
         control_out : out std_logic_vector(WRITEBACK_STAGE_CONTROL_LEN-1 downto 0);  -- Control signals for the next stage
 
         pgm_data    : out std_logic_vector(15 downto 0);                             -- Next instruction to be executed (fetch)
@@ -40,6 +46,12 @@ begin
             out1      => pgm_out,
             in0       => ram_data
         );
+
+    -- HECU
+    hecu_wb_sel <= control_in(CONT_WB_SEL);
+    hecu_wb_en  <= control_in(CONT_WB_EN);
+    hecu_wb_reg <= imm12_in(3 downto 0);
+    hecu_data   <= stage_out;
 
     -- Determine the output for the memory stage
     -- If CONT_MEM_RD (memory read) is high, use RAM output; 
