@@ -32,12 +32,27 @@
 start:
     mov r1, r0
     mov r2, r0
-    ldl r1, #0
-    ldl r2, #1
-    ldw r5, #loops
-loops:
-    jmp r5
-    adc r1, r1, r2
-    adc r1, r1, r2
-    adc r1, r1, r2
-    adc r1, r1, r2
+    ldl r1, #3
+    ldl r2, #5
+
+    cmp r1, r2
+    nop
+    nop
+nop
+    nop
+nop
+    nop
+nop
+    nop
+nop
+    nop
+nop
+    nop
+nop
+    nop
+
+loop:
+    jmp #loop, r8
+    nop
+
+

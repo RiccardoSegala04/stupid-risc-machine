@@ -17,6 +17,7 @@ entity execute is
         flags        : in std_logic_vector(CPU_WORD-1 downto 0);                   -- Processor status flags (flags register is a GPR)
 
         -- HECU
+        hecu_bubble  : in std_logic;
         hecu_wb_sel  : out std_logic;
         hecu_wb_en   : out std_logic;
         hecu_wb_reg  : out std_logic_vector(3 downto 0);
@@ -44,7 +45,7 @@ begin
             opcode    => alu_op,      -- Operation code for the ALU
             flags_in  => flags,       -- Current processor flags
             output    => alu_out,     -- Result from the ALU
-            flags_out => alu_flags    -- Updated flags from the ALU
+            flags_out => flags_out    -- Updated flags from the ALU
         );
 
     -- HECU
@@ -66,14 +67,20 @@ begin
     begin
         if rst = '0' then
             flags_wr <= '0'; 
-            flags_out <= (others => '0');
+            -- flags_out <= (others => '0');
             control_out <= (others => '0');
             wb_reg_out <= (others => '0');
             mem_data_out <= (others => '0');
             result <= (others => '0'); 
         elsif rising_edge(clk) then
             -- Pass through control signals for the next pipeline stage
-            control_out <= control_in(MEMORY_STAGE_CONTROL_LEN-1 downto 0);
+            --control_out <= control_in(MEMORY_STAGE_CONTROL_LEN-1 downto 0) when hecu_bubble = '0' else (others => '0');
+
+            if hecu_bubble = '0' then
+                control_out <= control_in(MEMORY_STAGE_CONTROL_LEN-1 downto 0);
+            else
+                control_out <= (others => '0');
+            end if;
 
             -- Combine destination register and immediate value for next stage
             wb_reg_out <= imm12_in(3 downto 0);

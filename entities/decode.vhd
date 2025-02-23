@@ -26,6 +26,9 @@ entity decode is
         hecu_wb_in    : in std_logic_vector(CPU_WORD-1 downto 0);
         hecu_reg1_sel : in std_logic_vector(1 downto 0);
         hecu_reg2_sel : in std_logic_vector(1 downto 0);
+        hecu_pc_new   : in std_logic_vector(CPU_WORD-1 downto 0);
+        hecu_pc_wr    : in std_logic;
+
 
         hecu_req_reg1 : out std_logic_vector(3 downto 0); 
         hecu_req_reg2 : out std_logic_vector(3 downto 0); 
@@ -72,8 +75,10 @@ begin
         flags_wr    => flags_wr,   
         reg1data    => reg1file,
         reg2data    => reg2file,
-        flags_out   => flags_internal,
-        pc_value    => pc_value
+        flags_out   => flags_out,
+        pc_value    => pc_value,
+        hecu_pc_new => hecu_pc_new,
+        hecu_pc_wr  => hecu_pc_wr
     );
 
     hecu_req_reg1 <= reg1addr;
@@ -87,13 +92,13 @@ begin
         if rst = '0' then
             control_out <= CF_OP_ADD;
             imm12_out <= (others => '0'); 
-            flags_out <= (others => '0');
+            --flags_out <= (others => '0');
         elsif rising_edge(clk) then
             -- Pass the internal control signals to the external control_out port.
             control_out <= control_internal;
 
             -- Pass the internal flags to the external flags_out port.
-            flags_out <= flags_internal;
+            --flags_out <= flags_internal;
 
             -- Pass the immediate 12 bit value to the next stage
             imm12_out <= reg2addr & reg1addr & new_wb_reg_addr;

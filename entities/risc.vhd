@@ -54,6 +54,8 @@ architecture behavioural of risc is
     signal hecu_exe_reg_dout : std_logic_vector(CPU_WORD-1 downto 0);
     signal hecu_mem_reg_dout : std_logic_vector(CPU_WORD-1 downto 0);
     signal hecu_wb_reg_dout  : std_logic_vector(CPU_WORD-1 downto 0);
+    signal hecu_exe_bubble   : std_logic;
+    signal hecu_pc_wr     : std_logic;
     
     signal hecu_reg1_sel     : std_logic_vector(1 downto 0);
     signal hecu_reg2_sel     : std_logic_vector(1 downto 0);
@@ -76,6 +78,8 @@ begin
         hecu_wb_in       => hecu_wb_reg_dout,
         hecu_reg1_sel    => hecu_reg1_sel,
         hecu_reg2_sel    => hecu_reg2_sel,
+        hecu_pc_new      => hecu_exe_reg_dout,
+        hecu_pc_wr       => hecu_pc_wr,
         hecu_req_reg1    => decode_hecu_req_reg1,
         hecu_req_reg2    => decode_hecu_req_reg2,
         control_out      => decode_control,
@@ -94,6 +98,7 @@ begin
         op1          => decode_reg1data,      
         op2          => decode_reg2data,     
         flags        => decode_flags_out,
+        hecu_bubble  => hecu_pc_wr,
         hecu_wb_sel  => execute_hecu_wb_sel,
         hecu_wb_en   => execute_hecu_wb_en,
         hecu_wb_reg  => execute_hecu_wb_reg,
@@ -152,6 +157,9 @@ begin
         exe_reg_dout => hecu_exe_reg_dout,
         mem_reg_dout => hecu_mem_reg_dout,
         wb_reg_dout  => hecu_wb_reg_dout,
+
+        exe_bubble   => hecu_exe_bubble,
+        pc_wr     => hecu_pc_wr,
         
         reg1_sel     => hecu_reg1_sel,    
         reg2_sel     => hecu_reg2_sel    

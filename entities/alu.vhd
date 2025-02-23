@@ -35,6 +35,7 @@ begin
 
     process (op1u, op2u, op1s, op2s, opcode)
     begin
+        flags_out <= flags_in;
         case opcode is
             when ALU_ADC => 
                 result <= resize(op1u + op2u + carry, CPU_WORD+1);
@@ -166,6 +167,6 @@ begin
     end process;
 
     output <= std_logic_vector(result(CPU_WORD-1 downto 0));
-    flags_out <= (others => '0');
+    --flags_out <= (others => '0');
 
 end behavioural;
