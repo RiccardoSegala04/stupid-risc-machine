@@ -33,26 +33,18 @@ start:
     mov r1, r0
     mov r2, r0
     ldl r1, #3
-    ldl r2, #5
+    ldl r2, #1
 
     cmp r1, r2
-    nop
-    nop
-nop
-    nop
-nop
-    nop
-nop
-    nop
-nop
-    nop
-nop
-    nop
-nop
+    jlt ##puttana 
     nop
 
 loop:
     jmp #loop, r8
+    nop
+
+puttana:
+    jmp #puttana, r8
     nop
 
 

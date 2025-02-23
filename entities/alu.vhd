@@ -153,7 +153,7 @@ begin
                 result <= resize(op1u, CPU_WORD+1);
             when ALU_SLT =>                       
                 if (flags_in(FLAGS_NEGATIVE) xor flags_in(FLAGS_OVERFLOW)) = '1' then
-                    result <= unsigned(op1s + resize(signed(op2(11 downto 0)), CPU_WORD));
+                    result <= unsigned(op1s + resize(signed(op2(11 downto 0)), CPU_WORD+1));
                 else
                     result <= resize(op1u, CPU_WORD+1);
                 end if;

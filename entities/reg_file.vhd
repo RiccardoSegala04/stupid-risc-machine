@@ -65,7 +65,7 @@ begin
             --     registers(k) := (others => '0');
             -- end loop;
 
-            registers(REG_PC) <= (others => '0');
+            registers(REG_PC) <= (others => '1');
             registers(REG_FLAGS) <= (others => '0');
 
         elsif rising_edge(clk) then 
@@ -93,6 +93,7 @@ begin
         --elsif falling_edge(clk) then
         end if;
     end process;
+
     pc_value <= registers(REG_PC) when rst = '1' else (others => '0');
 
 
