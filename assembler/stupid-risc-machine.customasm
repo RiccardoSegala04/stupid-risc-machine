@@ -44,19 +44,19 @@
     rFLG    => rFLG 
 }
 
-#fn addr_RRR__(rOUT: reg, rIN1: reg, rIN2: reg) => {
+#fn addr_RRR__(rOUT, rIN1, rIN2) => {
     rOUT @ rIN1 @ rIN2
 }
-#fn addr_RI8__(rOUT: reg, imm8: i8) => {
+#fn addr_RI8__(rOUT, imm8) => {
     rOUT @ imm8
 }
-#fn addr_I12__(imm12: i12) => {
+#fn addr_I12__(imm12) => {
     i12
 }
-#fn addr_RRI4_(rOUT: reg, rIN1: reg, imm4: i4) => {
+#fn addr_RRI4_(rOUT, rIN1, imm4) => {
     rOUT @ rIN1 @ imm4
 }
-#fn addr_I4RR_(imm4: i4, rIN1, rIN2) => {
+#fn addr_I4RR_(imm4, rIN1, rIN2) => {
     imm4 @ rIN1 @ rIN2
 }
 

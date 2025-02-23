@@ -31,24 +31,28 @@ end entity;
 
 -- Behavioral architecture for the register file
 architecture behavioural of reg_file is
-    signal reg1addr_int : integer;
-    signal reg2addr_int : integer;
-    signal wb_reg_addr_int : integer;
+    signal reg1addr_int : integer range 0 to 15;
+    signal reg2addr_int : integer range 0 to 15;
+    signal wb_reg_addr_int : integer range 0 to 15;
+    type reg_array is array(0 to CPU_WORD-1) of std_logic_vector(CPU_WORD-1 downto 0);
+    signal registers : reg_array;
 begin
 
     reg1addr_int <= to_integer(unsigned(reg1addr));
     reg2addr_int <= to_integer(unsigned(reg2addr));
     wb_reg_addr_int <= to_integer(unsigned(wb_reg_addr));
+    
 
-    process(reg1addr_int, reg2addr_int, rst)
+    reg1data <= registers(reg1addr_int) when out_pc = '0' else registers(REG_PC);
+    reg2data <= registers(reg2addr_int);
+
+    process(clk, rst)
         -- Define the register array
-        type reg_array is array(0 to CPU_WORD-1) of std_logic_vector(CPU_WORD-1 downto 0);
-        variable registers : reg_array;
     begin
 
         if rst = '0' then
-            reg1data <= (others => '0');
-            reg2data <= (others => '0');
+            --reg1data <= (others => '0');
+            --reg2data <= (others => '0');
             flags_out <= (others => '0');
             pc_value <= (others => '0');
 
@@ -56,33 +60,26 @@ begin
             --     registers(k) := (others => '0');
             -- end loop;
 
-            registers(REG_PC) := (others => '0');
-            registers(REG_FLAGS) := (others => '0');
+            registers(REG_PC) <= (others => '0');
+            registers(REG_FLAGS) <= (others => '0');
 
-            registers(0) := (others => '0');
-            registers(2) := std_logic_vector(to_unsigned(1, CPU_WORD));
-            registers(1) := std_logic_vector(to_unsigned(0, CPU_WORD));
+            registers(0) <= (others => '0');
+            registers(2) <= std_logic_vector(to_unsigned(1, CPU_WORD));
+            registers(1) <= std_logic_vector(to_unsigned(0, CPU_WORD));
 
-        else
-            reg1data <= registers(reg1addr_int);
-            reg2data <= registers(reg2addr_int);
-
-            -- If out_pc is high, override reg1data with the value of the PC register
-            if out_pc = '1' then
-                reg1data <= registers(REG_PC);
-            end if;
+        elsif rising_edge(clk) then 
 
             -- Write to the flags register if flags_wr is high
             -- (execute stage wants to write the flags register)
             if flags_wr = '1' then
-                registers(REG_FLAGS) := flags_in;
+                registers(REG_FLAGS) <= flags_in;
             end if;
 
             -- Write data to the write-back register specified by wb_reg_addr
-            registers(wb_reg_addr_int) := wb_reg_data;
+            registers(wb_reg_addr_int) <= wb_reg_data;
 
             -- Ensure register 0 (REG_0) always contains 0 (hardwired zero)
-            registers(REG_0) := (others => '0');
+            registers(REG_0) <= (others => '0');
 
             -- Output the PC for the fetch stage
             pc_value <= registers(REG_PC);
