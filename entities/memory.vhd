@@ -67,7 +67,7 @@ begin
             control_out <= (others => '0');
             mem_data <= (others => '0'); 
             imm12_out <= (others => '0'); 
-            pgm_data <= "0000000000001111"; 
+            pgm_data <= "0000000000001001"; 
         elsif rising_edge(clk) then
             -- Forward control signals (subset of control_in) to the next stage
             control_out <= control_in(WRITEBACK_STAGE_CONTROL_LEN-1 downto 0);

@@ -25,6 +25,6 @@ begin
             REG_0_LOGIC_VEC when control_in(CONT_WB_EN) = '0'
             else
               REG_PC_LOGIC_VEC when control_in(CONT_WB_SEL) = '1'
-              else imm12(11 downto 8);
+              else imm12(3 downto 0);
 
 end behavioural;

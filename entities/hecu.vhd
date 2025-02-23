@@ -31,12 +31,15 @@ begin
     exe_reg_dout <= exe_reg_din;
     mem_reg_dout <= mem_reg_din;
 
-    reg1_sel <= HECU_SEL_EXE when (exe_wb_reg = req_reg1) and (exe_wb_sel = '0') and (exe_wb_en = '1') else
-                HECU_SEL_MEM when (mem_wb_reg = req_reg1) and (mem_wb_sel = '0') and (mem_wb_en = '1') else 
-                HECU_SEL_REG;
+    -- reg1_sel <= HECU_SEL_EXE when (exe_wb_reg = req_reg1) and (exe_wb_sel = '0') and (exe_wb_en = '1') else
+    --             HECU_SEL_MEM when (mem_wb_reg = req_reg1) and (mem_wb_sel = '0') and (mem_wb_en = '1') else 
+    --             HECU_SEL_REG;
+    --
+    -- reg2_sel <= HECU_SEL_EXE when (exe_wb_reg = req_reg2) and (exe_wb_sel = '0') and (exe_wb_en = '1') else
+    --             HECU_SEL_MEM when (mem_wb_reg = req_reg2) and (mem_wb_sel = '0') and (mem_wb_en = '1') else 
+    --             HECU_SEL_REG;
 
-    reg2_sel <= HECU_SEL_EXE when (exe_wb_reg = req_reg2) and (exe_wb_sel = '0') and (exe_wb_en = '1') else
-                HECU_SEL_MEM when (mem_wb_reg = req_reg2) and (mem_wb_sel = '0') and (mem_wb_en = '1') else 
-                HECU_SEL_REG;
+    reg1_sel <= HECU_SEL_REG;
+    reg2_sel <= HECU_SEL_REG;
 
 end behavioural;

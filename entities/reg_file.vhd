@@ -40,11 +40,12 @@ begin
     reg2addr_int <= to_integer(unsigned(reg2addr));
     wb_reg_addr_int <= to_integer(unsigned(wb_reg_addr));
 
-    process(clk, rst)
+    process(reg1addr_int, reg2addr_int, rst)
         -- Define the register array
         type reg_array is array(0 to CPU_WORD-1) of std_logic_vector(CPU_WORD-1 downto 0);
         variable registers : reg_array;
     begin
+
         if rst = '0' then
             reg1data <= (others => '0');
             reg2data <= (others => '0');
@@ -62,8 +63,7 @@ begin
             registers(2) := std_logic_vector(to_unsigned(1, CPU_WORD));
             registers(1) := std_logic_vector(to_unsigned(0, CPU_WORD));
 
-        elsif rising_edge(clk) then
-            -- Output selected registers
+        else
             reg1data <= registers(reg1addr_int);
             reg2data <= registers(reg2addr_int);
 
@@ -91,7 +91,7 @@ begin
             flags_out <= registers(REG_FLAGS);
 
         elsif falling_edge(clk) then
-            registers(REG_PC) := std_logic_vector(unsigned(registers(REG_PC)) + 1);
+            -- registers(REG_PC) := std_logic_vector(unsigned(registers(REG_PC)) + 1);
         end if;
     end process;
 

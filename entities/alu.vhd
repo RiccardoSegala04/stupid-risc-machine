@@ -33,7 +33,7 @@ begin
     carry <= to_unsigned(1, 1) when flags_in(FLAGS_CARRY) = '1' 
                                else to_unsigned(0, 1);
 
-    process (op1, op2, opcode)
+    process (op1u, op2u, op1s, op2s, opcode)
     begin
         case opcode is
             when ALU_ADC => 
@@ -106,7 +106,7 @@ begin
                     flags_out(FLAGS_ZERO) <= '0'; 
                 end if;
                 flags_out(FLAGS_NEGATIVE) <= result(CPU_WORD-1);
-                
+
             when ALU_SL  => 
                 result <= op1u(CPU_WORD-1 downto 0) & '0';
                 if result = 0 then

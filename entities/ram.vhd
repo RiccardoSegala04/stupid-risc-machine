@@ -76,7 +76,6 @@ architecture sram of ram is
             for i in 1 to line_data'length loop
                 char_buffer((i-1) mod 4 + 1) := line_data.all(i); -- Store chars in buffer
                 if (i mod 4 = 0) or (i = line_data'length) then
-                    report char_buffer;
                     memory(index) <= hex_str_to_slv(char_buffer);
                     index := index+1;
                 end if;

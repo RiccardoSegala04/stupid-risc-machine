@@ -78,11 +78,22 @@ begin
     hecu_req_reg1 <= reg1addr;
     hecu_req_reg2 <= reg2addr;
 
+    with hecu_reg1_sel select
+        reg1data <= reg1file when HECU_SEL_REG,
+                    hecu_exe_in when HECU_SEL_EXE,
+                    hecu_mem_in when HECU_SEL_MEM,
+                    (others => 'X') when others;
+    with hecu_reg2_sel select
+        reg2data <= reg2file when HECU_SEL_REG,
+                    hecu_exe_in when HECU_SEL_EXE,
+                    hecu_mem_in when HECU_SEL_MEM,
+                    (others => 'X') when others;
+
     -- Process to update outputs at every clock edge.
     process(clk, rst)
     begin
         if rst = '0' then
-            control_out <= (others => '0');
+            control_out <= "00000001000";
             imm12_out <= (others => '0'); 
             flags_out <= (others => '0');
         elsif rising_edge(clk) then
@@ -93,30 +104,8 @@ begin
             flags_out <= flags_internal;
 
             -- Pass the immediate 12 bit value to the next stage
-            imm12_out <= new_wb_reg_addr & reg1addr & reg2addr;
-
-            case hecu_reg1_sel is
-                when HECU_SEL_REG =>
-                    reg1data <= reg1file;
-                when HECU_SEL_EXE =>
-                    reg1data <= hecu_exe_in;
-                when HECU_SEL_MEM =>
-                    reg1data <= hecu_mem_in;
-                when others =>
-                    reg1data <= (others => 'X');
-            end case;
-
-            case hecu_reg2_sel is
-                when HECU_SEL_REG =>
-                    reg2data <= reg2file;
-                when HECU_SEL_EXE =>
-                    reg2data <= hecu_exe_in;
-                when HECU_SEL_MEM =>
-                    reg2data <= hecu_mem_in;
-                when others =>
-                    reg2data <= (others => 'X');
-            end case;
-            
+            imm12_out <= reg2addr & reg1addr & new_wb_reg_addr;
+ 
         end if;
     end process;
 

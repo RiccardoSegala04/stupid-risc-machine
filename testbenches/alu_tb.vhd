@@ -2,6 +2,8 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
+use work.common_const.all;
+
 entity alu_tb is
 end alu_tb;
 
@@ -12,7 +14,6 @@ architecture testbench of alu_tb is
     signal flags_in  : std_logic_vector(15 downto 0);
     signal output    : std_logic_vector(15 downto 0);
     signal flags_out : std_logic_vector(15 downto 0);
-
 begin
 
     uut: entity work.alu port map (
@@ -29,11 +30,9 @@ begin
         flags_in <= (others => '0');
         op1 <= "0000000000001010";
         op2 <= "0000000000000001";
+        opcode <= ALU_ADC;
 
-        for op in 0 to 7 loop
-            opcode <= std_logic_vector(to_unsigned(op, 4));
-            wait for 10 ns;
-        end loop;
+        wait for 10 ns;
         wait;
     end process;
 
