@@ -24,7 +24,7 @@ begin
     wb_reg <= 
             REG_0_LOGIC_VEC when control_in(CONT_WB_EN) = '0'
             else
-              REG_PC_LOGIC_VEC when control_in(CONT_WB_SEL) = '0'
+              REG_PC_LOGIC_VEC when control_in(CONT_WB_SEL) = '1'
               else imm12(11 downto 8);
 
 end behavioural;
