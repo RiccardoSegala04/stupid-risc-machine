@@ -42,9 +42,11 @@ begin
     reg2addr_int <= to_integer(unsigned(reg2addr));
     wb_reg_addr_int <= to_integer(unsigned(wb_reg_addr));
     
-
     reg1data <= registers(reg1addr_int) when out_pc = '0' else registers(REG_PC);
     reg2data <= registers(reg2addr_int);
+
+    -- Ensure register 0 (REG_0) always contains 0 (hardwired zero)
+    registers(REG_0) <= (others => '0');
 
     process(clk, rst)
         -- Define the register array
@@ -63,10 +65,6 @@ begin
             registers(REG_PC) <= (others => '0');
             registers(REG_FLAGS) <= (others => '0');
 
-            registers(0) <= (others => '0');
-            registers(2) <= std_logic_vector(to_unsigned(1, CPU_WORD));
-            registers(1) <= std_logic_vector(to_unsigned(0, CPU_WORD));
-
         elsif rising_edge(clk) then 
 
             -- Write to the flags register if flags_wr is high
@@ -77,9 +75,6 @@ begin
 
             -- Write data to the write-back register specified by wb_reg_addr
             registers(wb_reg_addr_int) <= wb_reg_data;
-
-            -- Ensure register 0 (REG_0) always contains 0 (hardwired zero)
-            registers(REG_0) <= (others => '0');
 
             -- Output the PC for the fetch stage
             pc_value <= registers(REG_PC);
