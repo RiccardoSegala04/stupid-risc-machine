@@ -158,6 +158,8 @@ begin
                 end if;
             when ALU_ADD_IMM4 => 
                 result <= resize(op1u + unsigned(op2(3 downto 0)), CPU_WORD+1);
+            when ALU_FW_IMM8 =>
+                result <= unsigned("000000000" & op2(11 downto 4));
             when others => 
                 result <= (others => 'X');
         end case;

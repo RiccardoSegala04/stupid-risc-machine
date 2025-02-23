@@ -19,8 +19,8 @@ end entity ram;
 architecture sram of ram is
     type ram_array is array (0 to size) of std_logic_vector(15 downto 0);
 
-    signal addr0_int: integer;
-    signal addr1_int: integer;
+    signal addr0_int: integer range 0 to size-1;
+    signal addr1_int: integer range 0 to size-1;
     signal mem : ram_array; 
 
     signal mem_ready : boolean := false;
@@ -85,8 +85,10 @@ architecture sram of ram is
 
 begin
 
-    addr0_int <= 0; -- to_integer(unsigned(addr0));
-    addr1_int <= 0; -- to_integer(unsigned(addr1));
+    addr0_int <= to_integer(unsigned(addr0)) when mem_ready = true;
+    addr1_int <= to_integer(unsigned(addr1)) when mem_ready = true;
+    out0 <= mem(addr0_int) when mem_ready = true;
+    out1 <= mem(addr1_int) when mem_ready = true;
 
     process (addr0, addr1, write_en, in0) is
     begin
@@ -94,13 +96,11 @@ begin
             if write_en = '1' then
                 mem(addr0_int) <= in0;
             end if;
-            out0 <= mem(0);
-            out1 <= mem(0);
         else
-            load_memory_from_file(mem, "assembler/sum.hex");
+            load_memory_from_file(mem, "assembler/test.hex");
             mem_ready <= true;
-            out0 <= (others => '0');
-            out1 <= (others => '0');
+            --out0 <= (others => '0');
+            --out1 <= (others => '0');
         end if;
     end process;
 end architecture;

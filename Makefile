@@ -6,7 +6,7 @@ SIGNALS_FOLDER = signals/
 
 CONSTS = common_const
 ENTITIES = ram memory alu execute control reg_file decode writeback hecu risc 
-TB = alu_tb reg_file_tb writeback_tb risc_tb memory_tb
+TB = alu_tb reg_file_tb writeback_tb risc_tb
 
 CONST_FILES = $(addprefix $(ENTITIES_FOLDER), $(CONSTS))
 ENTITY_FILES = $(addprefix $(ENTITIES_FOLDER), $(ENTITIES))

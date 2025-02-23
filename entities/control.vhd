@@ -93,8 +93,8 @@ begin
                                CF_WB_EN;
             when OP_LOAD_IMM =>
                 -- Generate control signals for LOAD_IMM instruction.
-                control_out <= CF_OP_NOT or -- It doesn't matter
-                               CF_IMM or
+                control_out <= CF_OP_FW_IMM8 or -- It doesn't matter
+                               CF_ALU_IN2_SEL or
                                CF_WB_EN;
             when OP_STORE =>
                 -- Generate control signals for STORE instruction.

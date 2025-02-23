@@ -25,7 +25,7 @@ entity execute is
         flags_wr     : out std_logic;                                              -- Flag indicating if flags needs to be written
         flags_out    : out std_logic_vector(CPU_WORD-1 downto 0);                  -- Updated processor status flags
         control_out  : out std_logic_vector(MEMORY_STAGE_CONTROL_LEN-1 downto 0);  -- Control signals for next stage
-        imm12_out    : out std_logic_vector(11 downto 0);                          -- 12-bit immediate value for next stage (dreg + imm8)
+        wb_reg_out    : out std_logic_vector(3 downto 0);                          -- 12-bit immediate value for next stage (dreg + imm8)
         mem_data_out : out std_logic_vector(CPU_WORD-1 downto 0);                  -- Data to be written to memory (op2)
         result       : out std_logic_vector(CPU_WORD-1 downto 0)                   -- Result of ALU operation
     );
@@ -58,7 +58,7 @@ begin
 
     -- Determine ALU second input based on control signal
     -- If CONT_OUT_PC is set, use immediate value (relative branch); otherwise, use op2
-    alu_in <= "0000" & imm12_in when control_in(CONT_OUT_PC) = '1' else 
+    alu_in <= "0000" & imm12_in when control_in(CONT_ALU_IN2_SEL) = '1' else 
               op2;
 
     -- Forwarding logic to update outputs on rising edge of the clock
@@ -68,7 +68,7 @@ begin
             flags_wr <= '0'; 
             flags_out <= (others => '0');
             control_out <= (others => '0');
-            imm12_out <= (others => '0');
+            wb_reg_out <= (others => '0');
             mem_data_out <= (others => '0');
             result <= (others => '0'); 
         elsif rising_edge(clk) then
@@ -76,7 +76,7 @@ begin
             control_out <= control_in(MEMORY_STAGE_CONTROL_LEN-1 downto 0);
 
             -- Combine destination register and immediate value for next stage
-            imm12_out <= imm12_in;
+            wb_reg_out <= imm12_in(3 downto 0);
 
             -- Store the ALU result in the result output
             result <= alu_out;

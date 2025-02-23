@@ -48,7 +48,7 @@
     rOUT @ rIN1 @ rIN2
 }
 #fn addr_RI8__(rOUT, imm8) => {
-    rOUT @ imm8
+    rOUT @ imm8[3:0] @ imm8[7:4]
 }
 #fn addr_I12__(imm12) => {
     i12
@@ -67,13 +67,13 @@
     or  {out: reg}, {in1: reg}, {in2: reg}  => 0x3 @ addr_RRR__(out, in1, in2)      ; [RRR]  ; or  rOUT, rIN1, rIN2
     xor {out: reg}, {in1: reg}, {in2: reg}  => 0x4 @ addr_RRR__(out, in1, in2)      ; [RRR]  ; xor rOUT, rIN1, rIN2
     not {out: reg}, {in1: reg}              => 0x5 @ addr_RRR__(out, in1, r0 )      ; [RRR]  ; not rOUT, rIN1
-    sl  {out: reg}, {in1: reg}, #{imm: i4}  => 0x6 @ addr_RRI4_(out, in1, imm4)     ; [RRI4] ; sl  rOUT, rIN, #imm4
-    sr  {out: reg}, {in1: reg}, #{imm: i4}  => 0x7 @ addr_RRI4_(out, in1, imm4)     ; [RRI4] ; sr  rOUT, rIN, #imm4
+    sl  {out: reg}, {in1: reg}, #{imm: i4}  => 0x6 @ addr_RRI4_(out, in1, imm)      ; [RRI4] ; sl  rOUT, rIN, #imm4
+    sr  {out: reg}, {in1: reg}, #{imm: i4}  => 0x7 @ addr_RRI4_(out, in1, imm)      ; [RRI4] ; sr  rOUT, rIN, #imm4
     mul {out: reg}, {in1: reg}, {in2: reg}  => 0x8 @ addr_RRR__(in1,  in1, in2)     ; [RRR]  ; mul rOUT, rIN1, rIN2
     add {out: reg}, {in1: reg}, {in2: reg}  => 0x9 @ addr_RRR__(out, in1, in2)      ; [RRR]  ; add rOUT, rIN1, rIN2
-    jeq #{abs_addr: s12}                    => 0xA @ addr_I12__(abs_addr)           ; [I12]  ; jeq #imm12
-    jgt #{abs_addr: s12}                    => 0xB @ addr_I12__(abs_addr)           ; [I12]  ; jgt #imm12
-    jlt #{abs_addr: s12}                    => 0xC @ addr_I12__(abs_addr)           ; [I12]  ; jlt #imm12
+    jeq #{abs_addr: s12}                    => 0xA @ addr_I12__(abs_addr)           ; [I12]  ; jeq #imm12rel
+    jgt #{abs_addr: s12}                    => 0xB @ addr_I12__(abs_addr)           ; [I12]  ; jgt #imm12rel
+    jlt #{abs_addr: s12}                    => 0xC @ addr_I12__(abs_addr)           ; [I12]  ; jlt #imm12rel
     ld {dest: reg}, {addr: reg}[{off: reg}] => 0xD @ addr_RRR__(dest, addr, off)    ; [RRR]  ; ld  rOUT, rADDR[rOFF]
     ldl {dest: reg}, #{imm: i8}             => 0xE @ addr_RI8__(dest, imm)          ; [RI8]  ; ldl rOUT, #imm8
     st {addr: reg}[#{off: i4}], {src: reg}  => 0xF @ addr_I4RR_(off, addr, src)     ; [I4RR] ; st  rADDR[#imm4], rIN1

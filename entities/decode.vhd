@@ -23,6 +23,7 @@ entity decode is
         -- HECU
         hecu_mem_in   : in std_logic_vector(CPU_WORD-1 downto 0);
         hecu_exe_in   : in std_logic_vector(CPU_WORD-1 downto 0);
+        hecu_wb_in    : in std_logic_vector(CPU_WORD-1 downto 0);
         hecu_reg1_sel : in std_logic_vector(1 downto 0);
         hecu_reg2_sel : in std_logic_vector(1 downto 0);
 
@@ -84,7 +85,7 @@ begin
     process(clk, rst)
     begin
         if rst = '0' then
-            control_out <= "00000001000";
+            control_out <= CF_OP_ADD;
             imm12_out <= (others => '0'); 
             flags_out <= (others => '0');
         elsif rising_edge(clk) then
@@ -101,11 +102,13 @@ begin
             reg1data <= reg1file when HECU_SEL_REG,
             hecu_exe_in when HECU_SEL_EXE,
             hecu_mem_in when HECU_SEL_MEM,
+            hecu_wb_in  when HECU_SEL_WB,
             (others => 'X') when others;
         with hecu_reg2_sel select
             reg2data <= reg2file when HECU_SEL_REG,
             hecu_exe_in when HECU_SEL_EXE,
             hecu_mem_in when HECU_SEL_MEM,
+            hecu_wb_in  when HECU_SEL_WB,
             (others => 'X') when others;
         end if;
     end process;

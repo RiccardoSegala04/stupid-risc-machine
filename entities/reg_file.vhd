@@ -73,6 +73,8 @@ begin
                 registers(REG_FLAGS) <= flags_in;
             end if;
 
+            registers(REG_PC) <= std_logic_vector(unsigned(registers(REG_PC)) + 1);
+
             -- Write data to the write-back register specified by wb_reg_addr
             registers(wb_reg_addr_int) <= wb_reg_data;
 
@@ -82,8 +84,7 @@ begin
             -- Output the current state of the flags register
             flags_out <= registers(REG_FLAGS);
 
-        elsif falling_edge(clk) then
-            registers(REG_PC) <= std_logic_vector(unsigned(registers(REG_PC)) + 1);
+        --elsif falling_edge(clk) then
         end if;
     end process;
 
