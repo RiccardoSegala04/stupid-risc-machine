@@ -88,7 +88,7 @@ begin
             flags_out <= registers(REG_FLAGS);
 
         elsif falling_edge(clk) then
-            -- registers(REG_PC) := std_logic_vector(unsigned(registers(REG_PC)) + 1);
+            registers(REG_PC) <= std_logic_vector(unsigned(registers(REG_PC)) + 1);
         end if;
     end process;
 

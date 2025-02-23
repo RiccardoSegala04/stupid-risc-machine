@@ -16,6 +16,10 @@
     nop => asm {
         mov r0, r0
     }
+    ldh {dest: reg}, #{imm: i8} => asm {
+        ldl {dest}, #{imm}
+        sl {dest}, {dest}, #8
+    }
     ldw {dest: reg}, #{imm: i16} => asm {
         ldh {dest}, #{imm}[15:8]
         ldl {dest}, #{imm}[7:0]
