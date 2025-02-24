@@ -29,5 +29,14 @@ work-obj93.cf: $(VHD)
 	ghdl -e $@
 	ghdl -r $@ --wave=$(SIGNALS_FOLDER)$@.ghw
 
+%.hex: %.S
+	customasm $@ -f hexstr -o $<
+
+test: assembler/test.hex risc_tb
+	make clean
+
+testgtk: test
+	gtkwave $(SIGNALS_FOLDER)risc_tb.ghw conf.gtkw
+
 clean:
 	rm -f *.o $(TB) $(WORK)
