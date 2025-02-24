@@ -51,7 +51,7 @@
     rOUT @ imm8[3:0] @ imm8[7:4]
 }
 #fn addr_I12__(imm12) => {
-    imm12
+    imm12[3:0] @ imm12[7:4] @ imm12[11:8]
 }
 #fn addr_RRI4_(rOUT, rIN1, imm4) => {
     rOUT @ rIN1 @ imm4
