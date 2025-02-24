@@ -32,19 +32,19 @@
 start:
     mov r1, r0
     mov r2, r0
+sus:
     ldl r1, #3
-    ldl r2, #1
-
+    ldl r2, #7
     cmp r1, r2
-    jlt ##puttana 
+    jlt ##sus 
     nop
 
 loop:
     jmp #loop, r8
     nop
 
-puttana:
-    jmp #puttana, r8
+prova:
+    jmp #prova, r8
     nop
 
 

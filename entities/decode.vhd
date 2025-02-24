@@ -103,18 +103,19 @@ begin
             -- Pass the immediate 12 bit value to the next stage
             imm12_out <= reg2addr & reg1addr & new_wb_reg_addr;
             
-        with hecu_reg1_sel select
-            reg1data <= reg1file when HECU_SEL_REG,
-            hecu_exe_in when HECU_SEL_EXE,
-            hecu_mem_in when HECU_SEL_MEM,
-            hecu_wb_in  when HECU_SEL_WB,
-            (others => 'X') when others;
-        with hecu_reg2_sel select
-            reg2data <= reg2file when HECU_SEL_REG,
-            hecu_exe_in when HECU_SEL_EXE,
-            hecu_mem_in when HECU_SEL_MEM,
-            hecu_wb_in  when HECU_SEL_WB,
-            (others => 'X') when others;
+            with hecu_reg1_sel select
+                reg1data <= reg1file when HECU_SEL_REG,
+                hecu_exe_in when HECU_SEL_EXE,
+                hecu_mem_in when HECU_SEL_MEM,
+                hecu_wb_in  when HECU_SEL_WB,
+                (others => 'X') when others;
+            with hecu_reg2_sel select
+                reg2data <= reg2file when HECU_SEL_REG,
+                hecu_exe_in when HECU_SEL_EXE,
+                hecu_mem_in when HECU_SEL_MEM,
+                hecu_wb_in  when HECU_SEL_WB,
+                (others => 'X') when others;
+
         end if;
     end process;
 

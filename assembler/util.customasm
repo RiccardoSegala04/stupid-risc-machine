@@ -2,7 +2,7 @@
 #include "stupid-risc-machine.customasm"
 
 #fn absToRelAddr(addr) => {
-    reladdr = addr - $ - 1
+    reladdr = addr - $ 
     assert(reladdr <= 0x800, "Relative address is too far form PC")
     assert(reladdr >= !0x800, "Relative address is too far form PC")
     reladdr`12

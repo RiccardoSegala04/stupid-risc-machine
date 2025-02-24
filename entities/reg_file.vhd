@@ -46,8 +46,13 @@ begin
     reg2addr_int <= to_integer(unsigned(reg2addr));
     wb_reg_addr_int <= to_integer(unsigned(wb_reg_addr));
     
-    reg1data <= (others => '0') when reg1addr = REG_0_LOGIC_VEC else registers(reg1addr_int) when out_pc = '0' else registers(REG_PC);
-    reg2data <= (others => '0') when reg2addr = REG_0_LOGIC_VEC else registers(reg2addr_int);
+    reg1data <= registers(REG_PC) when out_pc = '1' 
+                else (others => '0') when reg1addr = REG_0_LOGIC_VEC 
+                else registers(reg1addr_int);
+
+    reg2data <= (others => '0') when reg2addr = REG_0_LOGIC_VEC 
+                else registers(reg2addr_int);
+
     flags_out <= registers(REG_FLAGS) when rst = '1' else (others => '0') ;
 
     -- Ensure register 0 (REG_0) always contains 0 (hardwired zero)
