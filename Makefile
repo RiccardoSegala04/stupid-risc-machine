@@ -30,7 +30,7 @@ work-obj93.cf: $(VHD)
 	ghdl -r $@ --wave=$(SIGNALS_FOLDER)$@.ghw
 
 %.hex: %.S
-	customasm $@ -f hexstr -o $<
+	customasm $< -f hexstr -o $@
 
 test: assembler/test.hex risc_tb
 	make clean
