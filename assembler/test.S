@@ -33,8 +33,8 @@ start:
     mov r1, r0
     mov r2, r0
 sus:
-    ldl r1, #3
-    ldl r2, #7
+    ldl r1, #7
+    ldl r2, #3
     cmp r1, r2
     jlt ##sus 
     nop
