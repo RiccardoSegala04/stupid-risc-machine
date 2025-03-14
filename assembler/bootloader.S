@@ -12,10 +12,10 @@ start:
 
 ; Load UART register addresses
 
-    ldw r2, #RX_BUF
-    ldw r3, #uart_read_byte
+    ldw r2, r10, #RX_BUF
+    ldw r3, r10, #uart_read_byte
 
-    ldw r4, #loaded_start
+    ldw r4, r10, #loaded_start
 
 
 ; Read the length of the program
@@ -23,14 +23,14 @@ start:
     ; Save Current address and call uart_read_byte
     jmp r3
     ldl r8, #1
-    ldw r1, #$+2
+    ldw r1, r10, #$+2
 
     ; Save the most significant 8 bits of the length
 
     ; Save Current address and call uart_read_byte
     jmp r3
     sl r6, r5, #8
-    ldw r1, #$+2
+    ldw r1, r10, #$+2
 
     ; Save the least significant 8 bits of the length
     or r6, r6, r5
@@ -45,14 +45,14 @@ __load_loop:
     ; Save Current address and call uart_read_byte
     jmp r3
     nop
-    ldw r1, #$+2
+    ldw r1, r10, #$+2
 
     ; Save the most significant 8 bits 
 
     ; Save Current address and call uart_read_byte
     jmp r3
     sl r7, r5, #8
-    ldw r1, #$+2
+    ldw r1, r10, #$+2
 
     ; Save the least significant 8 bits 
     or r7, r7, r5
@@ -69,7 +69,8 @@ __load_loop:
 
 ; Jump to the loaded program
 
-    jmp #loaded_start, r1
+    ldw r1, r2, #loaded_start
+    jmp r1
     nop
 
 

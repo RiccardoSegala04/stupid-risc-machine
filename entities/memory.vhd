@@ -6,7 +6,7 @@ use work.common_const.all;
 -- Entity declaration for the memory stage
 -- This module handles memory read and write operations in the pipeline.
 entity memory is
-    generic (ram_size : integer := 65536);                                           -- Size of the memory in bytes
+    generic (ram_size : integer := 2048);                                           -- Size of the memory in bytes
     port(                                                                                             
         clk         : in std_logic;                                                  -- Clock signal
         rst         : in std_logic;                                                  -- Reset signal
@@ -37,7 +37,7 @@ architecture behavioural of memory is
     signal stage_out : std_logic_vector(CPU_WORD-1 downto 0);  -- Intermediate stage output
 begin
     ram: entity work.ram
-        generic map(size => 65536)                
+        generic map(size => ram_size)                
         port map(
             write_en  => control_in(CONT_MEM_WR),
             addr0     => alu_data,

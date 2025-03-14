@@ -4,7 +4,7 @@ use ieee.numeric_std.all;
 use std.textio.all;
 
 entity ram is
-    generic (size : integer := 65536);
+    generic (size : integer := 2048);
     port(
         write_en: in std_logic;
         addr0:    in std_logic_vector(15 downto 0);
@@ -85,8 +85,8 @@ architecture sram of ram is
 
 begin
 
-    addr0_int <= to_integer(unsigned(addr0)) when mem_ready = true;
-    addr1_int <= to_integer(unsigned(addr1)) when mem_ready = true;
+    addr0_int <= to_integer(unsigned(addr0(10 downto 0))) when mem_ready = true;
+    addr1_int <= to_integer(unsigned(addr1(10 downto 0))) when mem_ready = true;
     out0 <= mem(addr0_int) when mem_ready = true;
     out1 <= mem(addr1_int) when mem_ready = true;
 
@@ -104,13 +104,6 @@ begin
             mem(size-4) <= (others => '0');
             mem(size-5) <= (others => '0');
             mem(size-6) <= (others => '0');
-
-            mem(253+1) <= (others => '0');
-            mem(253+2) <= (others => '0');
-            mem(253+3) <= (others => '0');
-            mem(253+4) <= (others => '0');
-            mem(253+5) <= (others => '0');
-            mem(253+6) <= (others => '0');
 
             mem_ready <= true;
             --out0 <= (others => '0');

@@ -32,7 +32,7 @@ work-obj93.cf: $(VHD)
 %.hex: %.S
 	customasm $< -f hexstr -o $@
 
-test: assembler/test.hex risc_tb
+test: assembler/bootloader.hex risc_tb
 	make clean
 
 testgtk: test

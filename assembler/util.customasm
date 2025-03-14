@@ -20,21 +20,14 @@
         ldl {dest}, #{imm}
         sl {dest}, {dest}, #8
     }
-    ldw {dest: reg}, #{imm: i16} => asm {
+    ldw {dest: reg}, {tmp: reg}, #{imm: i16} => asm {
         ldh {dest}, #{imm}[15:8]
-        ldl {dest}, #{imm}[7:0]
+        ldl {tmp}, #{imm}[7:0]
+        or {dest}, {dest}, {tmp}
     }
 
     jmp {addr_reg: reg} => asm {
         mov rPC, {addr_reg}
-    }
-
-    jmp #{addr: i16}, {reg1 : reg} => {
-        assert(reg1 != r0, "Cannot use r0 as auxiliary register")
-        asm {
-            ldw {reg1}, #{addr}
-            jmp {reg1}
-        }
     }
 
     jeq ##{abs_addr: s16} => {
