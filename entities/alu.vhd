@@ -110,7 +110,7 @@ begin
                 flags_out(FLAGS_NEGATIVE) <= result_var(CPU_WORD-1);
 
             when ALU_SL  => 
-                result_var := op1u(CPU_WORD-1 downto 0) & '0';
+                result_var := resize(shift_left(unsigned(op1), to_integer(signed(op2(CPU_WORD-1 downto 8)))), CPU_WORD+1);
                 if result_var = 0 then
                     flags_out(FLAGS_ZERO) <= '1'; 
                 else
@@ -119,7 +119,7 @@ begin
                 flags_out(FLAGS_NEGATIVE) <= result_var(CPU_WORD-1);
 
             when ALU_SR  => 
-                result_var := '0' & op1u(CPU_WORD-1 downto 0);
+                result_var := resize(shift_right(unsigned(op1), to_integer(signed(op2(CPU_WORD-1 downto 8)))), CPU_WORD+1);
                 if result_var = 0 then
                     flags_out(FLAGS_ZERO) <= '1'; 
                 else
@@ -140,23 +140,23 @@ begin
                 result_var := resize(op1u + op2u, CPU_WORD+1);
             when ALU_SEQ => 
                 if flags_in(FLAGS_ZERO) = '1' then
-                    result_var := unsigned(op1s + resize(signed(op2(11 downto 0)), CPU_WORD));
+                    result_var := unsigned(op1s + resize(signed(op2(11 downto 0)), CPU_WORD+1));
                 else
-                    result_var := resize(op1u, CPU_WORD+1);
+                    result_var := resize(op1u + 2, CPU_WORD+1);
                 end if;
 
             when ALU_SGT =>                       
                 if ((flags_in(FLAGS_NEGATIVE) xor flags_in(FLAGS_OVERFLOW)) or flags_in(FLAGS_ZERO)) = '0'  then
-                    result_var := unsigned(op1s + resize(signed(op2(11 downto 0)), CPU_WORD));
+                    result_var := unsigned(op1s + resize(signed(op2(11 downto 0)), CPU_WORD+1));
                 else
-                    result_var := resize(op1u, CPU_WORD+1);
+                    result_var := resize(op1u + 2, CPU_WORD+1);
                 end if;
                 result_var := resize(op1u, CPU_WORD+1);
             when ALU_SLT =>                       
                 if (flags_in(FLAGS_NEGATIVE) xor flags_in(FLAGS_OVERFLOW)) = '1' then
                     result_var := unsigned(op1s + resize(signed(op2(11 downto 0)), CPU_WORD+1));
                 else
-                    result_var := resize(op1u, CPU_WORD+1);
+                    result_var := resize(op1u + 2, CPU_WORD+1);
                 end if;
             when ALU_ADD_IMM4 => 
                 result_var := resize(op1u + unsigned(op2(3 downto 0)), CPU_WORD+1);

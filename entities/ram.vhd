@@ -97,7 +97,21 @@ begin
                 mem(addr0_int) <= in0;
             end if;
         else
-            load_memory_from_file(mem, "assembler/test.hex");
+            load_memory_from_file(mem, "assembler/bootloader.hex");
+            mem(size-1) <= (others => '0');
+            mem(size-2) <= (others => '0');
+            mem(size-3) <= (others => '0');
+            mem(size-4) <= (others => '0');
+            mem(size-5) <= (others => '0');
+            mem(size-6) <= (others => '0');
+
+            mem(253+1) <= (others => '0');
+            mem(253+2) <= (others => '0');
+            mem(253+3) <= (others => '0');
+            mem(253+4) <= (others => '0');
+            mem(253+5) <= (others => '0');
+            mem(253+6) <= (others => '0');
+
             mem_ready <= true;
             --out0 <= (others => '0');
             --out1 <= (others => '0');

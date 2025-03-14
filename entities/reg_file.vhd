@@ -70,6 +70,7 @@ begin
             --     registers(k) := (others => '0');
             -- end loop;
 
+            registers(0) <= (others => '0');
             registers(REG_PC) <= (others => '1');
             registers(REG_FLAGS) <= (others => '0');
 
@@ -89,7 +90,9 @@ begin
             end if;
             
             -- Write data to the write-back register specified by wb_reg_addr
-            registers(wb_reg_addr_int) <= wb_reg_data;
+            if wb_reg_addr_int /= 0 then
+                registers(wb_reg_addr_int) <= wb_reg_data;
+            end if;
 
             
             -- Output the PC for the fetch stage

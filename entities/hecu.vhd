@@ -45,13 +45,13 @@ begin
     pc_wr <= '1' when exe_wb_en = '1' and ((exe_wb_reg = REG_PC_LOGIC_VEC) or (exe_wb_sel = '1')) else '0';
 
     reg1_sel <= HECU_SEL_EXE when (exe_wb_reg = req_reg1 and exe_wb_reg /= REG_0_LOGIC_VEC) and (exe_wb_sel = '0') and (exe_wb_en = '1') else
-                HECU_SEL_MEM when (mem_wb_reg = req_reg1) and (mem_wb_sel = '0') and (mem_wb_en = '1') else
-                HECU_SEL_WB  when (wb_wb_reg  = req_reg1) else
+                HECU_SEL_MEM when (mem_wb_reg = req_reg1 and mem_wb_reg /= REG_0_LOGIC_VEC) and (mem_wb_sel = '0') and (mem_wb_en = '1') else
+                HECU_SEL_WB  when (wb_wb_reg  = req_reg1 and wb_wb_reg /= REG_0_LOGIC_VEC) else
                 HECU_SEL_REG;
     
     reg2_sel <= HECU_SEL_EXE when (exe_wb_reg = req_reg2 and exe_wb_reg /= REG_0_LOGIC_VEC) and (exe_wb_sel = '0') and (exe_wb_en = '1') else
-                HECU_SEL_MEM when (mem_wb_reg = req_reg2) and (mem_wb_sel = '0') and (mem_wb_en = '1') else
-                HECU_SEL_WB  when (wb_wb_reg  = req_reg2) else
+                HECU_SEL_MEM when (mem_wb_reg = req_reg2 and mem_wb_reg /= REG_0_LOGIC_VEC) and (mem_wb_sel = '0') and (mem_wb_en = '1') else
+                HECU_SEL_WB  when (wb_wb_reg  = req_reg2 and wb_wb_reg /= REG_0_LOGIC_VEC) else
                 HECU_SEL_REG;
 
     

@@ -12,7 +12,7 @@ def read_pgm_from_hex(file_path):
                 try:
                     hex_value = int(hex_chunk, 16)
                     binary_value = bin(hex_value)[2:].zfill(16)  
-                    print(f"mem({int(i/4)}) <= \"{binary_value}\";")
+                    print(f"memory({int(i/4)}) <= \"{binary_value}\";")
                 except ValueError:
                     print(f"Invalid hex value: {hex_chunk}")
                 
@@ -21,5 +21,5 @@ def read_pgm_from_hex(file_path):
     except Exception as e:
         print(f"An error occurred: {e}")
 
-file_path = 'assembler/test.hex'  
+file_path = 'assembler/bootloader.hex'  
 read_pgm_from_hex(file_path)
