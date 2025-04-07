@@ -43,8 +43,16 @@
         0xC @ addr_I12__(reladdr)`12
     }
 
-    cmp {rIN1: reg}, {rIN2: reg} => asm {
-        sbc r0, {rIN1}, {rIN2}
+;    cmp {rIN1: reg}, {rIN2: reg} => asm {
+;        adc r0, r0, r0
+;        nop
+;        sbc r0, {rIN1}, {rIN2}
+;    }
+
+    tx #{imm: i8} => asm {
+        ldl r13, #{imm}
+        ldl r12, #1
+        ldl r12, #0
     }
 }
 

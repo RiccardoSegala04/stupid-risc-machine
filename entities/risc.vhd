@@ -5,13 +5,21 @@ use work.common_const.all;
 
 entity risc is
     port (
-        clk: std_logic;
-        rst: std_logic
+        CLK : in std_logic;
+        RST : in std_logic;
+        LED       : out std_logic_vector(0 to 15);
+        JA : out std_logic_vector(0 to 7);
+        JB : out std_logic_vector(0 to 7);
+        JC : out std_logic_vector(0 to 7);
+        JD : out std_logic_vector(0 to 7)
     );
 end risc;
 
 architecture behavioural of risc is
     -- Fetch stage output signal
+    signal CLK5MHZ : std_logic;
+    signal nrst : std_logic;
+    signal palle : std_logic;
     signal fetch_operation : std_logic_vector(CPU_WORD-1 downto 0);
     
     -- Decode stage output signals
@@ -22,7 +30,7 @@ architecture behavioural of risc is
     signal decode_pc_value      : std_logic_vector(CPU_WORD-1 downto 0);
     signal decode_imm12_out     : std_logic_vector(11 downto 0);
     signal decode_hecu_req_reg1 : std_logic_vector(3 downto 0); 
-    signal decode_hecu_req_reg2 : std_logic_vector(3 downto 0); 
+    signal decode_hecu_req_reg2 : std_logic_vector(3 downto 0);
 
 
     -- Execute stage output signals
@@ -55,16 +63,21 @@ architecture behavioural of risc is
     signal hecu_mem_reg_dout : std_logic_vector(CPU_WORD-1 downto 0);
     signal hecu_wb_reg_dout  : std_logic_vector(CPU_WORD-1 downto 0);
     signal hecu_exe_bubble   : std_logic;
-    signal hecu_pc_wr     : std_logic;
+    signal hecu_pc_wr        : std_logic;
+    signal hecu_out_pc        : std_logic;
     
     signal hecu_reg1_sel     : std_logic_vector(1 downto 0);
     signal hecu_reg2_sel     : std_logic_vector(1 downto 0);
 
 
 begin
+    
+--    CLK <= CLK5MHZ when STP_SW = '0' else STP_BTN;
+    
+    
     decode: entity work.decode port map (
-        clk              => clk,
-        rst              => rst,
+        clk              => CLK,
+        rst              => RST,
         opcode           => fetch_operation(3 downto 0),
         reg1addr         => fetch_operation(11 downto 8),
         reg2addr         => fetch_operation(15 downto 12),
@@ -78,6 +91,7 @@ begin
         hecu_wb_in       => hecu_wb_reg_dout,
         hecu_reg1_sel    => hecu_reg1_sel,
         hecu_reg2_sel    => hecu_reg2_sel,
+        hecu_out_pc      => hecu_out_pc,
         hecu_pc_new      => hecu_exe_reg_dout,
         hecu_pc_wr       => hecu_pc_wr,
         hecu_req_reg1    => decode_hecu_req_reg1,
@@ -88,11 +102,12 @@ begin
         flags_out        => decode_flags_out,
         pc_value         => decode_pc_value,
         imm12_out        => decode_imm12_out
+        
     );
 
     execute: entity work.execute port map (
-        clk          => clk,
-        rst          => rst,
+        clk          => CLK,
+        rst          => RST,
         control_in   => decode_control,
         imm12_in     => decode_imm12_out,
         op1          => decode_reg1data,      
@@ -111,9 +126,11 @@ begin
         result       => execute_result      
     );
 
-    memory: entity work.memory port map (
-        clk          => clk,
-        rst          => rst,
+    memory: entity work.memory
+    generic map(ram_size => 128) 
+    port map (
+        clk          => CLK,
+        rst          => RST,
         control_in   => execute_control_out,
         pgm_addr     => decode_pc_value,
         pgm_data     => fetch_operation,
@@ -127,6 +144,9 @@ begin
         control_out  => memory_control_out,
         mem_data     => memory_data_out,
         wb_reg_out   => memory_wb_reg_out
+        --LED => LED,
+        --JC => JC,
+        --JD => JD
     );
 
     writeback: entity work.writeback port map (
@@ -159,9 +179,10 @@ begin
         wb_reg_dout  => hecu_wb_reg_dout,
 
         exe_bubble   => hecu_exe_bubble,
-        pc_wr     => hecu_pc_wr,
+        pc_wr        => hecu_pc_wr,
         
         reg1_sel     => hecu_reg1_sel,    
-        reg2_sel     => hecu_reg2_sel    
+        reg2_sel     => hecu_reg2_sel,    
+        out_pc       => hecu_out_pc
     );
 end architecture;

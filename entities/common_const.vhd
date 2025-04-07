@@ -24,7 +24,8 @@ package common_const is
     constant OP_AND      : std_logic_vector(CPU_OPCODE_LEN-1 downto 0) := "0010";
     constant OP_OR       : std_logic_vector(CPU_OPCODE_LEN-1 downto 0) := "0011";
     constant OP_XOR      : std_logic_vector(CPU_OPCODE_LEN-1 downto 0) := "0100";
-    constant OP_NOT      : std_logic_vector(CPU_OPCODE_LEN-1 downto 0) := "0101";
+    -- constant OP_NOT      : std_logic_vector(CPU_OPCODE_LEN-1 downto 0) := "0101";
+    constant OP_CMP      : std_logic_vector(CPU_OPCODE_LEN-1 downto 0) := "0101";
     constant OP_SL       : std_logic_vector(CPU_OPCODE_LEN-1 downto 0) := "0110";
     constant OP_SR       : std_logic_vector(CPU_OPCODE_LEN-1 downto 0) := "0111";
     constant OP_MUL      : std_logic_vector(CPU_OPCODE_LEN-1 downto 0) := "1000";
@@ -41,7 +42,8 @@ package common_const is
     constant ALU_SBC      : std_logic_vector(ALU_OPCODE_LEN-1 downto 0) := "0001";
     constant ALU_AND      : std_logic_vector(ALU_OPCODE_LEN-1 downto 0) := "0010";
     constant ALU_OR       : std_logic_vector(ALU_OPCODE_LEN-1 downto 0) := "0011";
-    constant ALU_NOT      : std_logic_vector(ALU_OPCODE_LEN-1 downto 0) := "0100";
+    -- constant ALU_NOT      : std_logic_vector(ALU_OPCODE_LEN-1 downto 0) := "0100";
+    constant ALU_CMP      : std_logic_vector(ALU_OPCODE_LEN-1 downto 0) := "0100";
     constant ALU_SL       : std_logic_vector(ALU_OPCODE_LEN-1 downto 0) := "0101";
     constant ALU_SR       : std_logic_vector(ALU_OPCODE_LEN-1 downto 0) := "0110";
     constant ALU_MUL      : std_logic_vector(ALU_OPCODE_LEN-1 downto 0) := "0111";
@@ -82,7 +84,8 @@ package common_const is
     constant CF_OP_SBC      : std_logic_vector(CPU_CONTROL_LEN-1 downto 0) := ALU_SBC      & "000000";
     constant CF_OP_AND      : std_logic_vector(CPU_CONTROL_LEN-1 downto 0) := ALU_AND      & "000000";
     constant CF_OP_OR       : std_logic_vector(CPU_CONTROL_LEN-1 downto 0) := ALU_OR       & "000000";
-    constant CF_OP_NOT      : std_logic_vector(CPU_CONTROL_LEN-1 downto 0) := ALU_NOT      & "000000";
+--    constant CF_OP_NOT      : std_logic_vector(CPU_CONTROL_LEN-1 downto 0) := ALU_NOT      & "000000";
+    constant CF_OP_CMP      : std_logic_vector(CPU_CONTROL_LEN-1 downto 0) := ALU_CMP      & "000000";
     constant CF_OP_SL       : std_logic_vector(CPU_CONTROL_LEN-1 downto 0) := ALU_SL       & "000000";
     constant CF_OP_SR       : std_logic_vector(CPU_CONTROL_LEN-1 downto 0) := ALU_SR       & "000000";
     constant CF_OP_MUL      : std_logic_vector(CPU_CONTROL_LEN-1 downto 0) := ALU_MUL      & "000000";

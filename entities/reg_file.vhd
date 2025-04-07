@@ -9,7 +9,7 @@ use work.common_const.all;
 -- It also handles special registers like the program counter (PC) and flags.
 entity reg_file is
 
-    port (
+    port (    
         clk           : in std_logic;                        -- Clock signal                                          
         rst           : in std_logic;                        -- Reset signal
 
@@ -42,6 +42,7 @@ architecture behavioural of reg_file is
     signal registers : reg_array;
 begin
 
+    
     reg1addr_int <= to_integer(unsigned(reg1addr));
     reg2addr_int <= to_integer(unsigned(reg2addr));
     wb_reg_addr_int <= to_integer(unsigned(wb_reg_addr));
@@ -66,16 +67,18 @@ begin
             --flags_out <= (others => '0');
             --pc_value <= (others => '0');
 
-            -- for k in 0 to registers'length-1 loop
-            --     registers(k) := (others => '0');
-            -- end loop;
+            for k in 0 to registers'length-1 loop
+                registers(k) <= (others => '0');
+            end loop;
 
             registers(0) <= (others => '0');
             registers(REG_PC) <= (others => '1');
             registers(REG_FLAGS) <= (others => '0');
 
         elsif rising_edge(clk) then 
+            
 
+            
             -- Write to the flags register if flags_wr is high
             -- (execute stage wants to write the flags register)
             --if flags_wr = '1' then

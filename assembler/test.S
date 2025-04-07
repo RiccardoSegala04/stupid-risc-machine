@@ -33,18 +33,24 @@ start:
     mov r1, r0
     mov r2, r0
 sus:
-    ldl r1, #7
-    ldl r2, #3
+    ldl r1, #1
+    ldl r2, #2
+    ldl r3, #3
+    
     cmp r1, r2
+    jgt ##sus 
+    nop
+
+    cmp r2, r1
     jlt ##sus 
     nop
 
-loop:
-    jmp #loop, r8
+    cmp r1, r2
+    jgt ##sus 
     nop
+    nop
+    jlt ##sus
 
-prova:
-    jmp #prova, r8
-    nop
+
 
 

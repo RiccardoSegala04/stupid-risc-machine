@@ -16,7 +16,7 @@ begin
 
     clk_switch: process
     begin
-        for i in 0 to 200 loop
+        for i in 0 to 2000 loop
             clk <= '0';
             wait for 20 ns;
             clk <= '1';

@@ -31,7 +31,8 @@ entity decode is
 
 
         hecu_req_reg1 : out std_logic_vector(3 downto 0); 
-        hecu_req_reg2 : out std_logic_vector(3 downto 0); 
+        hecu_req_reg2 : out std_logic_vector(3 downto 0);
+        hecu_out_pc   : out std_logic;
                                                                                                                     
         control_out  : out std_logic_vector(EXECUTE_STAGE_CONTROL_LEN-1 downto 0); -- Control signal output for the execute stage.
         reg1data     : out std_logic_vector(CPU_WORD-1 downto 0);                  -- Data output from the first read register
@@ -57,7 +58,7 @@ begin
     -- This generates control signals based on the opcode and flags.
     control: entity work.control port map (
         opcode      => opcode,
-        flags       => flags_internal,
+        flags       => flags_in,
         control_out => control_internal
     );
 
@@ -79,12 +80,12 @@ begin
         pc_value    => pc_value,
         hecu_pc_new => hecu_pc_new,
         hecu_pc_wr  => hecu_pc_wr
-    );
+        );
 
     hecu_req_reg1 <= reg1addr;
     hecu_req_reg2 <= reg2addr;
 
-
+    hecu_out_pc <= control_internal(CONT_OUT_PC);
 
     -- Process to update outputs at every clock edge.
     process(clk, rst)

@@ -31,110 +31,145 @@ begin
     op1s <= signed(op1);
     op2s <= signed(op2);
     carry <= to_unsigned(1, 1) when flags_in(FLAGS_CARRY) = '1' 
-                               else to_unsigned(0, 1);
+             else to_unsigned(0, 1);
 
     process (op1u, op2u, op1s, op2s, opcode)
         variable result_var : unsigned(CPU_WORD downto 0);
+        variable flg_out_var : std_logic_vector(CPU_WORD-1 downto 0);
+        
     begin
-        flags_out <= flags_in;
+        flg_out_var := flags_in;
         case opcode is
             when ALU_ADC => 
+                -- flg_out_var := (others => '0');
                 result_var := resize(op1u + op2u + carry, CPU_WORD+1);
-                flags_out(FLAGS_CARRY) <= result_var(CPU_WORD);
+                flg_out_var(FLAGS_CARRY) := result_var(CPU_WORD);
                 if result_var = 0 then
-                    flags_out(FLAGS_ZERO) <= '1'; 
+                    flg_out_var(FLAGS_ZERO) := '1'; 
                 else
-                    flags_out(FLAGS_ZERO) <= '0'; 
+                    flg_out_var(FLAGS_ZERO) := '0'; 
                 end if;
-                flags_out(FLAGS_NEGATIVE) <= result_var(CPU_WORD-1);
+                flg_out_var(FLAGS_NEGATIVE) := result_var(CPU_WORD-1);
 
                 if (op1s(CPU_WORD-1) = op2s(CPU_WORD-1)) then
                     if (op1s(CPU_WORD-1) /= result_var(CPU_WORD-1)) then
-                        flags_out(FLAGS_OVERFLOW) <= '1';
+                        flg_out_var(FLAGS_OVERFLOW) := '1';
                     else
-                        flags_out(FLAGS_OVERFLOW) <= '0';
+                        flg_out_var(FLAGS_OVERFLOW) := '0';
                     end if;
                 else
-                    flags_out(FLAGS_OVERFLOW) <= '0';
+                    flg_out_var(FLAGS_OVERFLOW) := '0';
                 end if;
 
             when ALU_SBC => 
+                -- flg_out_var := (others => '0');
                 result_var := resize(op1u - op2u - carry, CPU_WORD+1);
                 if op1u < (op2u + carry) then
-                    flags_out(FLAGS_CARRY) <= '1';
+                    flg_out_var(FLAGS_CARRY) := '1';
                 else
-                    flags_out(FLAGS_CARRY) <= '0';
+                    flg_out_var(FLAGS_CARRY) := '0';
                 end if;
                 if result_var = 0 then
-                    flags_out(FLAGS_ZERO) <= '1'; 
+                    flg_out_var(FLAGS_ZERO) := '1'; 
                 else
-                    flags_out(FLAGS_ZERO) <= '0'; 
+                    flg_out_var(FLAGS_ZERO) := '0'; 
                 end if;
-                flags_out(FLAGS_NEGATIVE) <= result_var(CPU_WORD-1);
+                flg_out_var(FLAGS_NEGATIVE) := result_var(CPU_WORD-1);
 
                 if (op1s(CPU_WORD-1) /= op2s(CPU_WORD-1)) then  
                     if (op1s(CPU_WORD-1) /= result_var(CPU_WORD-1)) then  
-                        flags_out(FLAGS_OVERFLOW) <= '1';
+                        flg_out_var(FLAGS_OVERFLOW) := '1';
                     else
-                        flags_out(FLAGS_OVERFLOW) <= '0';
+                        flg_out_var(FLAGS_OVERFLOW) := '0';
                     end if;
                 else
-                    flags_out(FLAGS_OVERFLOW) <= '0';
+                    flg_out_var(FLAGS_OVERFLOW) := '0';
                 end if;
 
             when ALU_AND => 
+                -- flg_out_var := (others => '0');
                 result_var := resize(op1u and op2u, CPU_WORD+1);
                 if result_var = 0 then
-                    flags_out(FLAGS_ZERO) <= '1'; 
+                    flg_out_var(FLAGS_ZERO) := '1'; 
                 else
-                    flags_out(FLAGS_ZERO) <= '0'; 
+                    flg_out_var(FLAGS_ZERO) := '0'; 
                 end if;
-                flags_out(FLAGS_NEGATIVE) <= result_var(CPU_WORD-1);
+                flg_out_var(FLAGS_NEGATIVE) := result_var(CPU_WORD-1);
 
             when ALU_OR  => 
+                -- flg_out_var := (others => '0');
                 result_var := resize(op1u or op2u, CPU_WORD+1);
                 if result_var = 0 then
-                    flags_out(FLAGS_ZERO) <= '1'; 
+                    flg_out_var(FLAGS_ZERO) := '1'; 
                 else
-                    flags_out(FLAGS_ZERO) <= '0'; 
+                    flg_out_var(FLAGS_ZERO) := '0'; 
                 end if;
-                flags_out(FLAGS_NEGATIVE) <= result_var(CPU_WORD-1);
+                flg_out_var(FLAGS_NEGATIVE) := result_var(CPU_WORD-1);
 
-            when ALU_NOT => 
-                result_var := resize(not op1u, CPU_WORD+1);
-                if result_var = 0 then
-                    flags_out(FLAGS_ZERO) <= '1'; 
-                else
-                    flags_out(FLAGS_ZERO) <= '0'; 
-                end if;
-                flags_out(FLAGS_NEGATIVE) <= result_var(CPU_WORD-1);
+            -- when ALU_NOT => 
+            --     -- flg_out_var := (others => '0');
+            --     result_var := resize(not op1u, CPU_WORD+1);
+            --     if result_var = 0 then
+            --         flg_out_var(FLAGS_ZERO) := '1'; 
+            --     else
+            --         flg_out_var(FLAGS_ZERO) := '0'; 
+            --     end if;
+            --     flg_out_var(FLAGS_NEGATIVE) := result_var(CPU_WORD-1);
+            
+            when ALU_CMP => 
+                    flg_out_var := (others => '0');
+                    result_var := resize(op1u - op2u, CPU_WORD+1);
+                    if op1u < op2u then
+                        flg_out_var(FLAGS_CARRY) := '1';
+                    else
+                        flg_out_var(FLAGS_CARRY) := '0';
+                    end if;
+                    if result_var = 0 then
+                        flg_out_var(FLAGS_ZERO) := '1'; 
+                    else
+                        flg_out_var(FLAGS_ZERO) := '0'; 
+                    end if;
+                    flg_out_var(FLAGS_NEGATIVE) := result_var(CPU_WORD-1);
+    
+                    if (op1s(CPU_WORD-1) /= op2s(CPU_WORD-1)) then  
+                        if (op1s(CPU_WORD-1) /= result_var(CPU_WORD-1)) then  
+                            flg_out_var(FLAGS_OVERFLOW) := '1';
+                        else
+                            flg_out_var(FLAGS_OVERFLOW) := '0';
+                        end if;
+                    else
+                        flg_out_var(FLAGS_OVERFLOW) := '0';
+                    end if;
 
             when ALU_SL  => 
+                -- flg_out_var := (others => '0');
                 result_var := resize(shift_left(unsigned(op1), to_integer(signed(op2(CPU_WORD-1 downto 8)))), CPU_WORD+1);
                 if result_var = 0 then
-                    flags_out(FLAGS_ZERO) <= '1'; 
+                    flg_out_var(FLAGS_ZERO) := '1'; 
                 else
-                    flags_out(FLAGS_ZERO) <= '0'; 
+                    flg_out_var(FLAGS_ZERO) := '0'; 
                 end if;
-                flags_out(FLAGS_NEGATIVE) <= result_var(CPU_WORD-1);
+                flg_out_var(FLAGS_NEGATIVE) := result_var(CPU_WORD-1);
 
             when ALU_SR  => 
+                -- flg_out_var := (others => '0');
                 result_var := resize(shift_right(unsigned(op1), to_integer(signed(op2(CPU_WORD-1 downto 8)))), CPU_WORD+1);
                 if result_var = 0 then
-                    flags_out(FLAGS_ZERO) <= '1'; 
+                    flg_out_var(FLAGS_ZERO) := '1'; 
                 else
-                    flags_out(FLAGS_ZERO) <= '0'; 
+                    flg_out_var(FLAGS_ZERO) := '0'; 
                 end if;
-                flags_out(FLAGS_NEGATIVE) <= result_var(CPU_WORD-1);
+                flg_out_var(FLAGS_NEGATIVE) := result_var(CPU_WORD-1);
 
             when ALU_MUL => 
+                -- flg_out_var := (others => '0');
                 result_var := resize(op1u * op2u, CPU_WORD+1);
                 if result_var = 0 then
-                    flags_out(FLAGS_ZERO) <= '1'; 
+                    -- flg_out_var(FLAGS_ZERO) <= '1'; 
                 else
-                    flags_out(FLAGS_ZERO) <= '0'; 
+                    flg_out_var(FLAGS_ZERO) := '0'; 
                 end if;
-                flags_out(FLAGS_NEGATIVE) <= result_var(CPU_WORD-1);
+                flg_out_var(FLAGS_NEGATIVE) := result_var(CPU_WORD-1);
 
             when ALU_ADD => 
                 result_var := resize(op1u + op2u, CPU_WORD+1);
@@ -151,7 +186,6 @@ begin
                 else
                     result_var := resize(op1u + 2, CPU_WORD+1);
                 end if;
-                result_var := resize(op1u, CPU_WORD+1);
             when ALU_SLT =>                       
                 if (flags_in(FLAGS_NEGATIVE) xor flags_in(FLAGS_OVERFLOW)) = '1' then
                     result_var := unsigned(op1s + resize(signed(op2(11 downto 0)), CPU_WORD+1));
@@ -167,6 +201,8 @@ begin
         end case;
 
         result <= result_var;
+        flags_out <= flg_out_var;
+
     end process;
 
     output <= std_logic_vector(result(CPU_WORD-1 downto 0));

@@ -43,10 +43,13 @@ begin
                 -- Generate control signals for OR instruction.
                 control_out <= CF_OP_OR or
                                CF_WB_EN;
-            when OP_NOT =>
-                -- Generate control signals for NOT instruction.
-                control_out <= CF_OP_NOT or
-                               CF_WB_EN;
+            -- when OP_NOT =>
+            --     -- Generate control signals for NOT instruction.
+            --     control_out <= CF_OP_NOT or
+            --                    CF_WB_EN;
+            when OP_CMP =>
+                -- Generate control signals for SBC instruction.
+                control_out <= CF_OP_CMP;
             when OP_SL =>
                 -- Generate control signals for SL instruction.
                 control_out <= CF_OP_SL or

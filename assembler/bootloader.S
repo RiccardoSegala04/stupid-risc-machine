@@ -69,7 +69,7 @@ __load_loop:
 
 ; Jump to the loaded program
 
-    ldw r1, r2, #loaded_start
+    ldw r1, r10, #loaded_start
     jmp r1
     nop
 
