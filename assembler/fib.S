@@ -17,13 +17,19 @@ start:
 
     jeq ##fatt
 
-    ldw r2, r13, #0xff
-wait:
+    ldl r3, #64 
+w1:
+    ldw r2, r13, #0xffff
+w2:
     cmp r2, r0
-    jgt ##wait
+    jgt ##w2
     add r2, r2, r7
 
     ldl r2, #1
+
+    cmp r3, r0
+    jgt ##w1
+    add r3, r3, r7
 
     cmp r0, r0
     jeq ##start
