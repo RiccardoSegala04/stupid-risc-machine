@@ -21,5 +21,5 @@ def read_pgm_from_hex(file_path):
     except Exception as e:
         print(f"An error occurred: {e}")
 
-file_path = 'assembler/parallel.txt'  
+file_path = 'assembler/fib.hex'  
 read_pgm_from_hex(file_path)
